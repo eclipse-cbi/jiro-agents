@@ -7,22 +7,20 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 
-DOCKERTOOLS_PATH=.dockertools
-JSONNET_PATH=.jsonnet
-
 .PHONY: all clean dockertools jsonnet
 
-dockertools:
-	./gitw sparsecheckout https://github.com/eclipse-cbi/dockertools.git ${DOCKERTOOLS_PATH}
+.dockertools:
+	./gitw sparsecheckout https://github.com/eclipse-cbi/dockertools.git $@
 	
-jsonnet: 
-	./gitw sparsecheckout https://github.com/google/jsonnet.git ${JSONNET_PATH}
+.jsonnet: 
+	./gitw sparsecheckout https://github.com/google/jsonnet.git $@
 
 .jsonnet/jsonnet: .jsonnet
 	make -C .jsonnet
 
-all:  dockertools .jsonnet/jsonnet
+all: .dockertools .jsonnet/jsonnet
 	./build.sh
 
-clean: clean_all_instances
-	.dockertools/dockerw clean
+clean: 
+	rm -rf .jsonnet .dockertools 
+	find . -maxdepth 2 -name target -exec rm -rf '{}' +
