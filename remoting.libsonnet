@@ -10,7 +10,7 @@
   providedAgents: [
     {name: "basic-agent", },
     {name: "jipp-migration-agent", labels: ["migration", "jipp-migration", ], },
-    {name: "ui-test-agent", labels: ["ui-test", "ui-tests", ], },
+    {name: "ui-tests-agent", labels: ["ui-test", "ui-tests", ], },
   ],
 
   # See https://github.com/jenkinsci/docker-jnlp-slave/releases for the jnlpAgentScript.version
