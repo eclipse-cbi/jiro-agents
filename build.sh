@@ -29,7 +29,7 @@ for agent in $("${jsonnet}" "${SCRIPT_FOLDER}/remoting.libsonnet" | jq -r '.agen
     echo "INFO: Building agent ${agent}:${agentVersion}"
     dockerfile="${agentFolder}/target/Dockerfile_${agentVersion}"
     manifest="${agentFolder}/target/manifest_${agentVersion}.json"
-    "${jsonnet}" "${SCRIPT_FOLDER}/remoting.libsonnet" | jq '.agents["'"${agent}"'"].versions["'"${agentVersion}"'"]' > "${manifest}"  
+    "${jsonnet}" "${SCRIPT_FOLDER}/remoting.libsonnet" | jq '.agents["'"${agent}"'"].versions["'"${agentVersion}"'"]' > "${manifest}"
 
     hbs -s -P "${SCRIPT_FOLDER}/Dockerfile.agentSetup.hbs" -D "${manifest}" "${agentFolder}/Dockerfile.hbs" > "${dockerfile}"
 

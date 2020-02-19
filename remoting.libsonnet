@@ -1,10 +1,4 @@
 {
-  // releasesMap: {
-  //   [x.remoting.version]: x for x in $.releases
-  // } + {
-  //   latest: self["3.36"],
-  // },
-  
   // one can customize docker info, e.g. image name like
   // {local a=self, name: "awesome-agent", docker:{image:{name: a.name+"-image-name-suffix"},},},
   providedAgents: [
@@ -68,12 +62,12 @@
       env: $.env,
     },
   ],
-  
+
   agents: {
     [agent.name]: {
+      labels: if std.objectHas(agent, "labels") then agent.labels else [],
       versions: {
         [remotingRelease.remoting.version]: {
-          labels: if std.objectHas(agent, "labels") then agent.labels else [],
           docker: {
             repository: "eclipsecbijenkins",
             image: {
