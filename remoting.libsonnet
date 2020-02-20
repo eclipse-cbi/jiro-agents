@@ -2,7 +2,7 @@
   // one can customize docker info, e.g. image name like
   // {local a=self, name: "awesome-agent", docker:{image:{name: a.name+"-image-name-suffix"},},},
   providedAgents: [
-    {name: "basic-agent", },
+    {name: "basic-agent", mode: "normal"}, # normal means "utilize agent as much as possible", can be set to 'exclusive' for "leave for tied jobs only". Default is 'exclusive'. See https://javadoc.jenkins.io/hudson/model/Node.Mode.html
     {name: "jipp-migration-agent", labels: ["migration", "jipp-migration", ], },
     {name: "ui-tests-agent", labels: ["ui-test", "ui-tests", ], },
   ],
@@ -66,6 +66,7 @@
   agents: {
     [agent.name]: {
       labels: if std.objectHas(agent, "labels") then agent.labels else [],
+      mode: if std.objectHas(agent, "mode") then agent.mode else "exclusive",
       versions: {
         [remotingRelease.remoting.version]: {
           docker: {
