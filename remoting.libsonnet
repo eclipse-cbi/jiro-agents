@@ -11,6 +11,19 @@
   releases: [
     {
       remoting: {
+        version: "4.2",
+        jar: $.remoting.jar,
+      },
+      jnlpAgentScript: {
+        version: "4.0.1-1",
+        name: $.jnlpAgentScript.name,
+      },
+      home: $.home,
+      agentWorkdir: $.agentWorkdir,
+      env: $.env,
+    },
+    {
+      remoting: {
         version: "3.36",
         jar: $.remoting.jar,
       },
@@ -30,32 +43,6 @@
       jnlpAgentScript: {
         version: "3.35-5",
         name: $.jnlpAgentScript.name,
-      },
-      home: $.home,
-      agentWorkdir: $.agentWorkdir,
-      env: $.env,
-    },
-    {
-      remoting: {
-        version: "3.29",
-        jar: "/usr/share/jenkins/slave.jar",
-      },
-      jnlpAgentScript: {
-        version: "3.29-1",
-        name: "jenkins-slave",
-      },
-      home: $.home,
-      agentWorkdir: $.agentWorkdir,
-      env: $.env,
-    },
-    {
-      remoting: {
-        version: "3.27",
-        jar: "/usr/share/jenkins/slave.jar",
-      },
-      jnlpAgentScript: {
-        version: "3.27-1",
-        name: "jenkins-slave",
       },
       home: $.home,
       agentWorkdir: $.agentWorkdir,
