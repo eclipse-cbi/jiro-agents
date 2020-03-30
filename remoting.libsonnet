@@ -15,7 +15,7 @@
         jar: $.remoting.jar,
       },
       jnlpAgentScript: {
-        version: "4.0.1-1",
+        version: "4.3-1",
         name: $.jnlpAgentScript.name,
       },
       home: $.home,
