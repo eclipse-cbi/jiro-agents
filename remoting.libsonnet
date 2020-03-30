@@ -11,6 +11,19 @@
   releases: [
     {
       remoting: {
+        version: "4.3",
+        jar: $.remoting.jar,
+      },
+      jnlpAgentScript: {
+        version: "4.0.1-1",
+        name: $.jnlpAgentScript.name,
+      },
+      home: $.home,
+      agentWorkdir: $.agentWorkdir,
+      env: $.env,
+    },
+    {
+      remoting: {
         version: "4.2",
         jar: $.remoting.jar,
       },
