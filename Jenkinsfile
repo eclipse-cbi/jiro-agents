@@ -18,7 +18,7 @@ pipeline {
   }
 
   stages {
-    stage('Build and push agent images') {
+    stage('Build and push JIRO agent images') {
       steps {
         withDockerRegistry([credentialsId: 'e93ba8f9-59fc-4fe4-a9a7-9a8bd60c17d9', url: 'https://index.docker.io/v1/']) {
           sh 'make all'
@@ -29,7 +29,19 @@ pipeline {
 
   post {
     always {
-      deleteDir() /* clean up workspace */
+      failure {
+        mail to: '',
+          subject: "[CBI] Build Failure ${currentBuild.fullDisplayName}",
+          body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}"
+      }
+      fixed {
+        mail to: '',
+          subject: "[CBI] Back to normal ${currentBuild.fullDisplayName}",
+          body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}"
+      }
+      cleanup {
+        deleteDir() /* clean up workspace */
+      }
     }
   }
 }
