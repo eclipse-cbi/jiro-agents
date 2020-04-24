@@ -14,6 +14,7 @@
 | Python3 | Python 3.6.8 |
 | perl | This is perl 5, version 16, subversion 3 (v5.16.3) built for x86_64-linux-thread-multi (with 39 registered patches, see perl -V for more detail) |
 | wget | GNU Wget 1.14 built on linux-gnu. |
+| curl | curl 7.29.0 (x86_64-redhat-linux-gnu) libcurl/7.29.0 NSS/3.44 zlib/1.2.7 libidn/1.28 libssh2/1.8.0 <br> Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp scp sftp smtp smtps telnet tftp <br> Features: AsynchDNS GSS-Negotiate IDN IPv6 Largefile NTLM NTLM_WB SSL libz unix-sockets |
 | metacity | metacity 2.34.13 |
 | mutter | mutter 3.28.3 |
 
