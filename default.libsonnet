@@ -1,0 +1,85 @@
+/******************************************************************************
+ * Copyright (c) 2020 Eclipse Foundation and others.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License 2.0
+ * which is available at http://www.eclipse.org/legal/epl-v20.html,
+ * or the MIT License which is available at https://opensource.org/licenses/MIT.
+ * SPDX-License-Identifier: EPL-2.0 OR MIT
+ *****************************************************************************/
+{
+  spec: {
+    local thisSpec = self,
+    name: error "Provide agent name",
+    labels: [],
+    # Default is 'EXCLUSIVE'. 
+    # 'NORMAL' means "utilize agent as much as possible"
+    # 'EXCLUSIVE' means "leave for tied jobs only". 
+    # See https://javadoc.jenkins.io/hudson/model/Node.Mode.html
+    mode: "EXCLUSIVE", 
+    username: "jenkins",
+    home: "/home/%s" % self.username,
+    agentWorkdir: self.home + "/jenkins-agent",
+    startupScript: "/usr/local/bin/jenkins-agent",
+    maxHeap: "256m",
+
+    docker: {
+      registry: "docker.io",
+      repository: "eclipsecbi",
+      image: "jiro-agent-%s" % thisSpec.name,
+      tag: "spec",
+      raw_dockerfile:: error "Provide an dockerfile",
+      dockerfile: self.raw_dockerfile % thisSpec,
+    },
+
+    env: {
+      JAVA_OPTS: [""],
+      JNLP_PROTOCOL_OPTS: [
+        "-showversion",
+        "-XshowSettings:vm", 
+        "-Xmx%s" % thisSpec.maxHeap, 
+        # https://github.com/eclipse/openj9/issues/3637
+        #"-Djdk.nativeCrypto=false", 
+        # Fixed in JDK9+
+        # https://bugs.openjdk.java.net/browse/JDK-8175192
+        "-Dsun.zip.disableMemoryMapping=true", 
+        "-Dorg.jenkinsci.remoting.engine.JnlpProtocol3.disabled=true", 
+        # org.jenkinsci.plugins.gitclient.CliGitAPIImpl.useSETSID=true to allow git client to ssh clone to use passphrase protected keys
+        # https://github.com/jenkinsci/git-client-plugin/blob/master/src/main/java/org/jenkinsci/plugins/gitclient/CliGitAPIImpl.java#L100
+        "-Dorg.jenkinsci.plugins.gitclient.CliGitAPIImpl.useSETSID=true"
+      ],
+      JAVA_TOOL_OPTIONS: [],
+      OPENJ9_JAVA_OPTIONS: [
+        "-XX:+IgnoreUnrecognizedVMOptions",
+        "-XX:+IdleTuningCompactOnIdle",
+        "-XX:+IdleTuningGcOnIdle",
+      ],
+      IBM_JAVA_OPTIONS: [
+        "-XX:+IgnoreUnrecognizedVMOptions",
+        "-XX:+IdleTuningCompactOnIdle",
+        "-XX:+IdleTuningGcOnIdle",
+      ],
+      _JAVA_OPTIONS: [],
+    },
+    
+    remoting_dockerfile:: importstr "remoting/Dockerfile",
+  },
+
+  variants: {
+    [variant.remoting.version]: variant for variant in [
+      {
+        remoting: remoting,
+        docker: $.spec.docker + {
+          tag: "remoting-%s" % remoting.version,
+          dockerfile: $.spec.remoting_dockerfile % (
+            $.spec + {
+              from: "%s/%s/%s:%s" % [$.spec.docker.registry, $.spec.docker.repository, $.spec.docker.image, $.spec.docker.tag],
+              remotingJar: remoting.jar,
+              remotingJarUrl: remoting.url,
+              startupScriptUrl: remoting.startupScript.url,
+            }
+          ),
+        },
+      } for remoting in (import "remoting/remoting.jsonnet").releases
+    ]
+  },
+}

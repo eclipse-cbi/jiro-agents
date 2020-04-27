@@ -6,18 +6,22 @@
 # or the MIT License which is available at https://opensource.org/licenses/MIT.
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
+FROM %(from)s
 
-SHELL=/usr/bin/env bash
-.PHONY: all clean
+# These environment variables will be used in the uid_entrypoint script from the parent image
+ENV USER_NAME="%(username)s"
+ENV HOME="%(home)s"
 
-.bashtools:
-	bash -c "$$(curl -fsSL https://raw.githubusercontent.com/completeworks/bashtools/master/install.sh)"
+VOLUME [ "%(home)s", ]
+WORKDIR "%(home)s"
+ENTRYPOINT [ "uid_entrypoint", "%(startupScript)s" ]
 
-.dockertools: .bashtools
-	.bashtools/gitw sparsecheckout https://github.com/eclipse-cbi/dockertools.git $@
-	
-all: .dockertools
-	./build.sh agents.jsonnet
+ADD "%(remotingJarUrl)s" "%(remotingJar)s" 
+ADD "%(startupScriptUrl)s" "%(startupScript)s"
 
-clean: 
-	rm -rf .bashtools .dockertools target
+RUN chmod 755 "$(dirname "%(remotingJar)s")" \
+  && chmod 644 "%(remotingJar)s" \
+  && chmod ug+rx "%(startupScript)s" \
+  && chgrp 0 "%(startupScript)s"
+
+USER 10001:0
