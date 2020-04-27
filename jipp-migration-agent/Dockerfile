@@ -1,6 +1,12 @@
+#*******************************************************************************
+# Copyright (c) 2020 Eclipse Foundation and others.
+# This program and the accompanying materials are made available
+# under the terms of the Eclipse Public License 2.0
+# which is available at http://www.eclipse.org/legal/epl-v20.html,
+# or the MIT License which is available at https://opensource.org/licenses/MIT.
+# SPDX-License-Identifier: EPL-2.0 OR MIT
+#*******************************************************************************
 FROM eclipsecbi/centos:7
-
-{{> Dockerfile.agentSetup }}
 
 # Required for python36u
 RUN yum install -y yum-utils && \
@@ -89,15 +95,13 @@ RUN ln -s /usr/bin/git /usr/local/bin/git \
 
 ENV DISPLAY :0
 
-RUN mkdir -p ${HOME}/.vnc && chmod -R 775 ${HOME} \
-  && echo "123456" | vncpasswd -f > ${HOME}/.vnc/passwd \
-  && chmod 600 ${HOME}/.vnc/passwd
+RUN mkdir -p %(home)s/.vnc && chmod -R 775 %(home)s \
+  && echo "123456" | vncpasswd -f > %(home)s/.vnc/passwd \
+  && chmod 600 %(home)s/.vnc/passwd
 
 # Create a custom vnc xstartup file
-COPY scripts/xstartup_mutter.sh ${HOME}/.vnc/xstartup.sh
-RUN chmod 755 ${HOME}/.vnc/xstartup.sh
+COPY scripts/xstartup_mutter.sh %(home)s/.vnc/xstartup.sh
+RUN chmod 755 %(home)s/.vnc/xstartup.sh
 
 # explicitly set locale
 ENV LANG=en_US.UTF-8
-
-USER 10001

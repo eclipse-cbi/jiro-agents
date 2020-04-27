@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #*******************************************************************************
-# Copyright (c) 2019 Eclipse Foundation and others.
+# Copyright (c) 2020 Eclipse Foundation and others.
 # This program and the accompanying materials are made available
 # under the terms of the Eclipse Public License 2.0
 # which is available at http://www.eclipse.org/legal/epl-v20.html,
@@ -8,35 +8,79 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 
-# Bash strict-mode
-set -o errexit
-set -o nounset
-set -o pipefail
+export LOG_LEVEL="${LOG_LEVEL:-600}"
+# shellcheck disable=SC1090
+. "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.bashtools/bashtools"
 
-IFS=$'\n\t'
+SCRIPT_FOLDER="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+PATH="${SCRIPT_FOLDER}/.jsonnet:${SCRIPT_FOLDER}/.dockertools:${PATH}"
+
+AGENTS_JSONNET="${1}"
+AGENT_ID="${2:-}"
+AGENT_REMOTING_VERSION=${3:-}
+PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
 SCRIPT_FOLDER="$(dirname "$(readlink -f "${0}")")"
+PATH="${SCRIPT_FOLDER}/.dockertools:${PATH}"
 
-jsonnet="${SCRIPT_FOLDER}/.jsonnet/jsonnet"
+BUILD_DIR="${SCRIPT_FOLDER}/target/"
+AGENTS_JSON="${BUILD_DIR}/agents.json"
 
-for agent in $("${jsonnet}" "${SCRIPT_FOLDER}/remoting.libsonnet" | jq -r '.agents|keys[]'); do
-  agentFolder=${SCRIPT_FOLDER}/$("${jsonnet}" "${SCRIPT_FOLDER}/remoting.libsonnet" | jq -r '.agents["'"${agent}"'"].folder')
-  echo "INFO: Building agents ${agent} in '${agentFolder}/'"
+# gen the computed agents.json (mainly for .agents[])
+mkdir -p "${BUILD_DIR}/"
+jsonnet "${AGENTS_JSONNET}" > "${AGENTS_JSON}"
 
-  mkdir -p "${agentFolder}/target"
+build_agent_variant() {
+  local id="${1}"
+  local variant="${2}"
+  local agent_config="${3}"
+  local config_dir="${BUILD_DIR}/${id}/${variant}"
+  local config="${config_dir}/variant.json"
 
-  for agentVersion in $("${jsonnet}" "${SCRIPT_FOLDER}/remoting.libsonnet" | jq -r '.agents["'"${agent}"'"].versions|keys[]'); do
-    echo "INFO: Building agent ${agent}:${agentVersion}"
-    dockerfile="${agentFolder}/target/Dockerfile_${agentVersion}"
-    manifest="${agentFolder}/target/manifest_${agentVersion}.json"
-    "${jsonnet}" "${SCRIPT_FOLDER}/remoting.libsonnet" | jq '.agents["'"${agent}"'"].versions["'"${agentVersion}"'"]' > "${manifest}"
+  INFO "Building jiro-agent '${id}' - variant ${variant}"
 
-    hbs -s -P "${SCRIPT_FOLDER}/Dockerfile.agentSetup.hbs" -D "${manifest}" "${agentFolder}/Dockerfile.hbs" > "${dockerfile}"
+  mkdir -p "${config_dir}"
+  jq -r '.variants["'"${variant}"'"]' "${agent_config}" > "${config}"
 
-    dockerRepo="$("${jsonnet}" "${manifest}" | jq -r '.docker.repository')"
-    imageName="$("${jsonnet}" "${manifest}" | jq -r '.docker.image.name')"
-    imageTag="$("${jsonnet}" "${manifest}" | jq -r '.docker.image.tag')"
+  jq -r '.docker.dockerfile' "${config}" > "${config_dir}/Dockerfile"
 
-    "${SCRIPT_FOLDER}/.dockertools/dockerw" build "${dockerRepo}/${imageName}" "${imageTag}" "${dockerfile}" "${agentFolder}" "true" "false"
+  image="$(jq -r '.docker.registry' "${agent_config}")/$(jq -r '.docker.repository' "${agent_config}")/$(jq -r '.docker.image' "${agent_config}")"
+  tag="$(jq -r '.docker.tag' "${config}")"
+
+  INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
+  dockerw build "${image}" "${tag}" "${config_dir}/Dockerfile" "${config_dir}" "${PUSH_IMAGES}" |& TRACE
+}
+
+build_agent() {
+  local id="${1}"
+  local config_dir="${BUILD_DIR}/${id}"
+  local config="${config_dir}/agent.json"
+
+  INFO "Building jiro-agent '${id}'"
+
+  mkdir -p "${config_dir}"
+  jq -r '.["'"${id}"'"]' "${AGENTS_JSON}" > "${config}"
+  jq -r '.docker.dockerfile' "${config}" > "${config_dir}/Dockerfile"
+
+  image="$(jq -r '.docker.registry' "${config}")/$(jq -r '.docker.repository' "${config}")/$(jq -r '.docker.image' "${config}")"
+  tag="$(jq -r '.docker.tag' "${config}")"
+
+  INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
+  dockerw build "${image}" "${tag}" "${config_dir}/Dockerfile" "${id}" "${PUSH_IMAGES}" |& TRACE
+
+  for variant in $(jq -r '.variants | keys[]' "${config}"); do
+    build_agent_variant "${id}" "${variant}" "${config}"
   done
-done
+}
+
+if [[ -n "${AGENT_ID}" ]]; then
+  if [[ -n "${AGENT_REMOTING_VERSION}" ]]; then
+    build_agent_variant "${AGENT_ID}" "${AGENT_REMOTING_VERSION}"
+  else
+    build_agent "${AGENT_ID}" 
+  fi
+else 
+  for id in $(jq -r '. | keys[]' "${AGENTS_JSON}"); do
+    build_agent "${id}"
+  done
+fi

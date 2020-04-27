@@ -1,11 +1,11 @@
-#!/usr/bin/env /bin/sh
+#!/usr/bin/env sh
 
 [ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
-[ -r ${HOME}/.Xresources ] && xrdb ${HOME}/.Xresources
+[ -r "${HOME}/.Xresources" ] && xrdb "${HOME}/.Xresources"
 
-Xvnc ${DISPLAY} -geometry 1440x900 -depth 16 -dpi 100 -PasswordFile ${HOME}/.vnc/passwd &
+Xvnc "${DISPLAY}" -geometry 1440x900 -depth 16 -dpi 100 -PasswordFile "${HOME}/.vnc/passwd" &
 sleep 2
 xsetroot -solid grey
 vncconfig -iconic &
 xhost +
-mutter --replace --sm-disable --display=${DISPLAY} &
+mutter --replace --sm-disable --display="${DISPLAY}" &
