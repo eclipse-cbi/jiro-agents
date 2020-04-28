@@ -6,7 +6,11 @@ pipeline {
 
   options { 
     buildDiscarder(logRotator(numToKeepStr: '5'))
-    disableConcurrentBuilds()
+  }
+
+  environment {
+    REPO_NAME = "eclipsecbi"
+    DOCKERTOOLS_PATH = sh(script: "printf ${env.WORKSPACE}/.dockertools", returnStdout: true)
   }
 
   triggers {
@@ -14,7 +18,7 @@ pipeline {
   }
 
   stages {
-    stage('Build and push JIRO agents images') {
+    stage('Build and push JIRO agent images') {
       steps {
         withDockerRegistry([credentialsId: 'e93ba8f9-59fc-4fe4-a9a7-9a8bd60c17d9', url: 'https://index.docker.io/v1/']) {
           sh 'make all'

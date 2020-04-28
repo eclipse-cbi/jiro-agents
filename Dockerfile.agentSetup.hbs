@@ -1,0 +1,19 @@
+RUN curl --create-dirs -sSLo {{remoting.jar}} https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/{{remoting.version}}/remoting-{{remoting.version}}.jar \
+  && chmod 755 /usr/share/jenkins \
+  && chmod 644 {{remoting.jar}}
+
+ADD https://raw.githubusercontent.com/jenkinsci/docker-jnlp-slave/{{jnlpAgentScript.version}}/{{jnlpAgentScript.name}} /usr/local/bin/{{jnlpAgentScript.name}}
+RUN chmod ug+rx /usr/local/bin/{{jnlpAgentScript.name}} && \
+  chgrp 0 /usr/local/bin/{{jnlpAgentScript.name}} && \
+  mkdir -p {{home}}/.jenkins && \
+  mkdir -p {{agentWorkdir}}
+
+ENTRYPOINT [ "uid_entrypoint", "{{jnlpAgentScript.name}}" ]
+ENV HOME={{home}}
+ENV JENKINS_AGENT_WORKDIR={{agentWorkdir}}
+
+{{#each env}}
+ENV {{this.name}}="{{{this.value}}}"
+{{/each}}
+
+WORKDIR {{home}}

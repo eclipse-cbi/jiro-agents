@@ -1,0 +1,39 @@
+FROM eclipsecbi/fedora:29
+
+{{> Dockerfile.agentSetup }}
+
+RUN dnf -y update && dnf -y install \
+      curl \
+      dejavu-fonts-common \
+      git \
+      gtk3 \
+      gnu-free-fonts-common \
+      gnupg \
+      java-1.8.0-openjdk.x86_64 \
+      liberation-fonts \
+      mesa-libGL \
+      mutter \
+      openssh-clients \
+      tigervnc-server \
+      tigervnc \
+      unzip \
+      wget \
+      xorg-x11-server-utils \
+      xorg-x11-fonts-misc \
+      xorg-x11-fonts-75dpi \
+      xorg-x11-fonts-Type1 \
+      xorg-x11-fonts-100dpi \
+      zip \
+    && dnf clean all
+
+ENV DISPLAY :0
+
+RUN mkdir -p ${HOME}/.vnc && chmod -R 775 ${HOME} \
+  && echo "123456" | vncpasswd -f > ${HOME}/.vnc/passwd \
+  && chmod 600 ${HOME}/.vnc/passwd
+
+# Create a custom vnc xstartup file
+COPY scripts/xstartup_mutter.sh ${HOME}/.vnc/xstartup.sh
+RUN chmod 755 ${HOME}/.vnc/xstartup.sh
+
+USER 10001
