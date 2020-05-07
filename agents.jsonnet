@@ -27,14 +27,5 @@ local default = import "default.libsonnet";
         },
       }
     },
-    default + {
-      spec+: {
-        name: "ui-tests-agent",
-        labels: ["ui-test", "ui-tests", ],
-        docker+: {
-          raw_dockerfile: importstr "ui-tests-agent/Dockerfile",
-        },
-      },
-    },
   ]
 }
