@@ -15,6 +15,6 @@
   startupScript: {
     name: "jenkins-agent",
     version: error "Must specify startupScript version",
-    url: "https://github.com/jenkinsci/docker-jnlp-slave/raw/%s/%s" % [ self.version, self.name, ],
+    url: "https://github.com/jenkinsci/docker-inbound-agent/raw/%s/%s" % [ self.version, self.name, ],
   },
 }
