@@ -44,6 +44,7 @@ build_agent_variant() {
 
   jq -r '.docker.dockerfile' "${config}" > "${config_dir}/Dockerfile"
 
+  local image tag 
   image="$(jq -r '.spec.docker.registry' "${agent_config}")/$(jq -r '.spec.docker.repository' "${agent_config}")/$(jq -r '.spec.docker.image' "${agent_config}")"
   tag="$(jq -r '.docker.tag' "${config}")"
 
