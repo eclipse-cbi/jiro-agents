@@ -27,6 +27,7 @@
       repository: "eclipsecbi",
       image: "jiro-agent-%s" % thisSpec.name,
       tag: "spec",
+      context: thisSpec.name,
       raw_dockerfile:: error "Provide an dockerfile",
       dockerfile: self.raw_dockerfile % thisSpec,
     },

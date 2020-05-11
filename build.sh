@@ -62,11 +62,13 @@ build_agent_spec() {
   jq -r '.["'"${id}"'"]' "${AGENTS_JSON}" > "${config}"
   jq -r '.spec.docker.dockerfile' "${config}" > "${config_dir}/Dockerfile"
 
+  local image tag context
   image="$(jq -r '.spec.docker.registry' "${config}")/$(jq -r '.spec.docker.repository' "${config}")/$(jq -r '.spec.docker.image' "${config}")"
   tag="$(jq -r '.spec.docker.tag' "${config}")"
+  context="$(jq -r '.spec.docker.context' "${config}")"
 
   INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
-  dockerw build "${image}" "${tag}" "${config_dir}/Dockerfile" "${id}" "${PUSH_IMAGES}" |& TRACE
+  dockerw build "${image}" "${tag}" "${config_dir}/Dockerfile" "${context}" "${PUSH_IMAGES}" |& TRACE
 
   for variant in $(jq -r '.variants | keys[]' "${config}"); do
     build_agent_variant "${id}" "${variant}" "${config}"
