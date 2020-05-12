@@ -53,8 +53,10 @@ build_agent_variant() {
 
   for alias in $(jq -r '.docker.aliases[]' "${config}"); do 
     INFO "Tagging docker image alias '${alias}' -> '${image}:${tag}' (push=${PUSH_IMAGES})"
-    docker tag "${image}:${tag}" "${alias}"
     if [[ "${PUSH_IMAGES}" == "true" ]]; then
+      # we have to pull the image as dockerw build does not make it available. TODO: should be improved in #dockertools
+      docker pull "${image}:${tag}" 
+      docker tag "${image}:${tag}" "${alias}"
       docker push "${alias}"
     fi
   done
