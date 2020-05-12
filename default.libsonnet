@@ -71,6 +71,7 @@
         remoting: remoting,
         docker: $.spec.docker + {
           tag: "remoting-%s" % remoting.version,
+          aliases: [],
           dockerfile: $.spec.remoting_dockerfile % (
             $.spec + {
               from: "%s/%s/%s:%s" % [$.spec.docker.registry, $.spec.docker.repository, $.spec.docker.image, $.spec.docker.tag],
@@ -82,5 +83,15 @@
         },
       } for remoting in (import "remoting/remoting.jsonnet").releases
     ]
+  },
+
+  addAliases(superVariants, names):: {
+    [variant]+: superVariants[variant] + {
+      docker+: {
+        aliases+: [ 
+          name % superVariants[variant].remoting.version for name in names
+        ]
+      },
+    }, for variant in std.objectFields(superVariants)
   },
 }

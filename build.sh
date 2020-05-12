@@ -50,6 +50,14 @@ build_agent_variant() {
 
   INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
   dockerw build "${image}" "${tag}" "${config_dir}/Dockerfile" "${config_dir}" "${PUSH_IMAGES}" |& TRACE
+
+  for alias in $(jq -r '.docker.aliases[]' "${config}"); do 
+    INFO "Tagging docker image alias '${alias}' -> '${image}:${tag}' (push=${PUSH_IMAGES})"
+    docker tag "${image}:${tag}" "${alias}"
+    if [[ "${PUSH_IMAGES}" == "true" ]]; then
+      docker push "${alias}"
+    fi
+  done
 }
 
 build_agent_spec() {
