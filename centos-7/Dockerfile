@@ -8,8 +8,10 @@
 #*******************************************************************************
 FROM eclipsecbi/centos:7
 
-
-RUN yum install -y \
+# yum-utils and ius-release required for python36u
+RUN yum install -y yum-utils && \ 
+  yum install -y https://centos7.iuscommunity.org/ius-release.rpm && \
+  yum install -y \
     autoconf \
     automake \
     boost-test \
@@ -25,8 +27,6 @@ RUN yum install -y \
     gcc-c++ \
     git \
     gtk3 \
-    # Required for python36u
-    https://centos7.iuscommunity.org/ius-release.rpm \
     ImageMagick \
     ImageMagick-devel \
     lapack \
@@ -84,8 +84,6 @@ RUN yum install -y \
     xorg-x11-drv-void.x86_64 \
     xorg-x11-server-Xvfb.x86_64 \
     xterm \
-    # Required for python36u
-    yum-utils \
     zip \
     zsh \
   && yum clean all
@@ -93,7 +91,6 @@ RUN yum install -y \
 RUN ln -s /usr/bin/git /usr/local/bin/git \
   && ln -s /bin/bash /usr/local/bin/hipp_shell \
   && if [ ! -a /etc/machine-id ] || [ ! -s /etc/machine-id ]; then dbus-uuidgen > /etc/machine-id; fi
-
 
 ENV DISPLAY :0
 
