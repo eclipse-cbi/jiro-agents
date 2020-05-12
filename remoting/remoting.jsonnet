@@ -37,5 +37,11 @@ local default = import "default.libsonnet";
         version: "3.36-2",
       },
     },
+    default + {
+      version: "3.35",
+      startupScript+: {
+        version: "3.35-5",
+      },
+    },
   ],
 }
