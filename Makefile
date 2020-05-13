@@ -8,7 +8,9 @@
 #*******************************************************************************
 
 SHELL=/usr/bin/env bash
-AGENTS_IDS:=$(shell jq -r '. | keys[]' <<<$$(jsonnet "agents.jsonnet" 2> /dev/null) || echo 'none')
+AGENTS=agents.jsonnet
+AGENTS_IDS:=$(shell jq -r '. | keys[]' <<<$$(jsonnet "$(AGENTS)" 2> /dev/null) || echo 'none')
+
 .PHONY: all clean $(AGENTS_IDS)
 
 .bashtools:
@@ -18,10 +20,10 @@ AGENTS_IDS:=$(shell jq -r '. | keys[]' <<<$$(jsonnet "agents.jsonnet" 2> /dev/nu
 	.bashtools/gitw sparsecheckout https://github.com/eclipse-cbi/dockertools.git $@
 
 $(AGENTS_IDS): .dockertools
-	./build.sh agents.jsonnet $@
+	./build.sh $(AGENTS) $@
 
 all: .dockertools
-	./build.sh agents.jsonnet
+	./build.sh $(AGENTS)
 
 clean: 
 	rm -rf .bashtools .dockertools target
