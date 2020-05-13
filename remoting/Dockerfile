@@ -11,17 +11,19 @@ FROM %(from)s
 # These environment variables will be used in the uid_entrypoint script from the parent image
 ENV USER_NAME="%(username)s"
 ENV HOME="%(home)s"
+ENV SYMLINKS_FILE="%(symlinksFile)s"
 
 VOLUME [ "%(home)s", ]
 WORKDIR "%(home)s"
-ENTRYPOINT [ "uid_entrypoint", "%(startupScript)s" ]
+ENTRYPOINT [ "uid_entrypoint", "/usr/local/bin/symbolic_links.sh", "%(startupScript)s" ]
 
 ADD "%(remotingJarUrl)s" "%(remotingJar)s" 
 ADD "%(startupScriptUrl)s" "%(startupScript)s"
+COPY "symbolic_links.sh" "/usr/local/bin/symbolic_links.sh"
 
 RUN chmod 755 "$(dirname "%(remotingJar)s")" \
   && chmod 644 "%(remotingJar)s" \
-  && chmod ug+rx "%(startupScript)s" \
-  && chgrp 0 "%(startupScript)s"
+  && chmod ug+rx "%(startupScript)s" "/usr/local/bin/symbolic_links.sh" \
+  && chgrp 0 "%(startupScript)s" "/usr/local/bin/symbolic_links.sh"
 
 USER 10001:0

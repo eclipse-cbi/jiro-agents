@@ -20,6 +20,7 @@
     home: "/home/%s" % self.username,
     agentWorkdir: self.home + "/jenkins-agent",
     startupScript: "/usr/local/bin/jenkins-agent",
+    symlinksFile: "/usr/share/jenkins-agent/symlinks",
     maxHeap: "256m",
 
     docker: {
