@@ -8,14 +8,18 @@
 #*******************************************************************************
 
 SHELL=/usr/bin/env bash
-.PHONY: all clean
+AGENTS_IDS:=$(shell jq -r '. | keys[]' <<<$$(jsonnet "agents.jsonnet" 2> /dev/null) || echo 'none')
+.PHONY: all clean $(AGENTS_IDS)
 
 .bashtools:
 	bash -c "$$(curl -fsSL https://raw.githubusercontent.com/completeworks/bashtools/master/install.sh)"
 
 .dockertools: .bashtools
 	.bashtools/gitw sparsecheckout https://github.com/eclipse-cbi/dockertools.git $@
-	
+
+$(AGENTS_IDS): .dockertools
+	./build.sh agents.jsonnet $@
+
 all: .dockertools
 	./build.sh agents.jsonnet
 

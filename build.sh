@@ -17,7 +17,6 @@ PATH="${SCRIPT_FOLDER}/.jsonnet:${SCRIPT_FOLDER}/.dockertools:${PATH}"
 
 AGENTS_JSONNET="${1}"
 AGENT_ID="${2:-}"
-AGENT_REMOTING_VERSION=${3:-}
 PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
 SCRIPT_FOLDER="$(dirname "$(readlink -f "${0}")")"
@@ -48,21 +47,16 @@ build_agent_variant() {
   image="$(jq -r '.spec.docker.registry' "${agent_config}")/$(jq -r '.spec.docker.repository' "${agent_config}")/$(jq -r '.spec.docker.image' "${agent_config}")"
   tag="$(jq -r '.docker.tag' "${config}")"
 
-  INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
-  dockerw build "${image}" "${tag}" "${config_dir}/Dockerfile" "${config_dir}" "${PUSH_IMAGES}" |& TRACE
-
+  local aliases="${image}:${tag}"
   for alias in $(jq -r '.docker.aliases[]' "${config}"); do 
-    INFO "Tagging docker image alias '${alias}' -> '${image}:${tag}' (push=${PUSH_IMAGES})"
-    if [[ "${PUSH_IMAGES}" == "true" ]]; then
-      # we have to pull the image as dockerw build does not make it available. TODO: should be improved in #dockertools
-      docker pull "${image}:${tag}" 
-      docker tag "${image}:${tag}" "${alias}"
-      docker push "${alias}"
-    fi
+    aliases="${aliases},${alias}"
   done
+  
+  INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
+  dockerw build2 "${aliases}" "${config_dir}/Dockerfile" "${config_dir}" "${PUSH_IMAGES}" |& TRACE
 }
 
-build_agent_spec() {
+build_agent() {
   local id="${1}"
   local config_dir="${BUILD_DIR}/${id}"
   local config="${config_dir}/agent.json"
@@ -79,7 +73,7 @@ build_agent_spec() {
   context="$(jq -r '.spec.docker.context' "${config}")"
 
   INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
-  dockerw build "${image}" "${tag}" "${config_dir}/Dockerfile" "${context}" "${PUSH_IMAGES}" |& TRACE
+  dockerw build2 "${image}:${tag}" "${config_dir}/Dockerfile" "${context}" "${PUSH_IMAGES}" |& TRACE
 
   for variant in $(jq -r '.variants | keys[]' "${config}"); do
     build_agent_variant "${id}" "${variant}" "${config}"
@@ -87,13 +81,9 @@ build_agent_spec() {
 }
 
 if [[ -n "${AGENT_ID}" ]]; then
-  if [[ -n "${AGENT_REMOTING_VERSION}" ]]; then
-    build_agent_variant "${AGENT_ID}" "${AGENT_REMOTING_VERSION}"
-  else
-    build_agent_spec "${AGENT_ID}" 
-  fi
+  build_agent "${AGENT_ID}" 
 else 
   for id in $(jq -r '. | keys[]' "${AGENTS_JSON}"); do
-    build_agent_spec "${id}"
+    build_agent "${id}"
   done
 fi

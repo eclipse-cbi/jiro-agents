@@ -65,13 +65,16 @@
     remoting_dockerfile:: importstr "remoting/Dockerfile",
   },
 
+  local remotings = import "remoting/remoting.jsonnet",
   variants: {
     [variant.remoting.version]: variant for variant in [
       {
         remoting: remoting,
         docker: $.spec.docker + {
           tag: "remoting-%s" % remoting.version,
-          aliases: [],
+          aliases: if remotings.latest == remoting.version then [
+            "%s/%s/%s:%s" % [self.registry, self.repository, self.image, "latest"]
+          ] else [],
           dockerfile: $.spec.remoting_dockerfile % (
             $.spec + {
               from: "%s/%s/%s:%s" % [$.spec.docker.registry, $.spec.docker.repository, $.spec.docker.image, $.spec.docker.tag],
@@ -81,7 +84,7 @@
             }
           ),
         },
-      } for remoting in (import "remoting/remoting.jsonnet").releases
+      } for remoting in remotings.releases
     ]
   },
 
@@ -90,7 +93,9 @@
       docker+: {
         aliases+: [ 
           name % superVariants[variant].remoting.version for name in names
-        ]
+        ] + if remotings.latest == superVariants[variant].remoting.version then [ 
+          name % "latest" for name in names 
+        ] else [],
       },
     }, for variant in std.objectFields(superVariants)
   },
