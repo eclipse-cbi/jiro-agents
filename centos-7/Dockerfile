@@ -8,9 +8,10 @@
 #*******************************************************************************
 FROM eclipsecbi/centos:7
 
-# yum-utils and ius-release required for python36u
-RUN yum install -y yum-utils && \ 
-  yum install -y https://centos7.iuscommunity.org/ius-release.rpm && \
+# ius-release required for python36u
+RUN yum install -y \
+    https://repo.ius.io/ius-release-el7.rpm \
+    https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
   yum install -y \
     autoconf \
     automake \
