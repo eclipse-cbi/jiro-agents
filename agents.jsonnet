@@ -26,7 +26,7 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "centos-7",
-        labels: ["migration", "jipp-migration", "centos", "centos-7" ],
+        labels: ["migration", "jipp-migration", "centos-7" ],
         docker+: {
           raw_dockerfile:: importstr "centos-7/Dockerfile",
         },
@@ -37,6 +37,15 @@ local default = import "default.libsonnet";
         "docker.io/eclipsecbijenkins/ui-test-agent:%s",
         "docker.io/eclipsecbijenkins/ui-tests-agent:%s", 
       ]),
+    },
+    default + {
+      spec+: {
+        name: "centos-8",
+        labels: ["centos", "centos-latest", "centos-8" ],
+        docker+: {
+          raw_dockerfile:: importstr "centos-8/Dockerfile",
+        },
+      },
     },
   ]
 }
