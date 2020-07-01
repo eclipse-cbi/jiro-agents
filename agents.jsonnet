@@ -41,7 +41,7 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "centos-8",
-        labels: ["centos", "centos-latest", "centos-8" ],
+        labels: ["centos-latest", "centos-8" ],
         docker+: {
           raw_dockerfile:: importstr "centos-8/Dockerfile",
         },
