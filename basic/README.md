@@ -2,7 +2,6 @@
 
 | OS / Tool | Version |
 | -----------------|---------|
-| uname -a | Linux 1bf85892030e 4.4.0-177-generic #207-Ubuntu SMP Mon Mar 16 01:16:10 UTC 2020 x86_64 GNU/Linux  |
 | OS release <br> (/etc/issue) |  Welcome to Alpine Linux 3.11 |
 | Java | openjdk version "1.8.0_252" <br> OpenJDK Runtime Environment (build 1.8.0_252-b09) <br> Eclipse OpenJ9 VM (build openj9-0.20.0, JRE 1.8.0 Linux amd64-64-Bit Compressed References 20200416_608 (JIT enabled, AOT enabled) <br> OpenJ9   - 05fa2d361 <br> OMR      - d4365f371 <br> JCL      - cfa47e66cd5 based on jdk8u252-b09) |
 | Git | git version 2.24.3 |        

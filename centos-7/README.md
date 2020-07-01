@@ -2,7 +2,6 @@
 
 | OS / Tool | Version |
 | -----------------|---------|
-| uname -a | Linux 90b35eeb8d2d 4.4.0-177-generic #207-Ubuntu SMP Mon Mar 16 01:16:10 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux  |
 | Redhat release <br> (/etc/redhat-release) | CentOS Linux release 7.7.1908 (Core) |
 | OS release <br> (/etc/os-release) |  NAME="CentOS Linux" VERSION="7 (Core)" <br> ID="centos" <br> ID_LIKE="rhel fedora" <br> VERSION_ID="7" <br> PRETTY_NAME="CentOS Linux 7 (Core)" <br> ANSI_COLOR="0;31" <br> CPE_NAME="cpe:/o:centos:centos:7" <br> OME_URL="https://www.centos.org/" <br> BUG_REPORT_URL="https://bugs.centos.org/" <br> CENTOS_MANTISBT_PROJECT="CentOS-7" <br> CENTOS_MANTISBT_PROJECT_VERSION="7" <br> REDHAT_SUPPORT_PRODUCT="centos" <br> REDHAT_SUPPORT_PRODUCT_VERSION="7" |
 | Java | Picked up JAVA_TOOL_OPTIONS: -XX:+IgnoreUnrecognizedVMOptions -XX:+UseContainerSupport -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap <br> Picked up _JAVA_OPTIONS: -XX:MaxRAMPercentage=64.0 <br> openjdk version "1.8.0_242" <br> OpenJDK Runtime Environment (build 1.8.0_242-b08) <br> OpenJDK 64-Bit Server VM (build 25.242-b08, mixed mode) |
