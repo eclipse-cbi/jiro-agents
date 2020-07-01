@@ -7,6 +7,3 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 FROM eclipsecbi/adoptopenjdk-coreutils:openjdk8-openj9-alpine-slim
-
-# TODO: removed once LTS 2.222.1 is deployed everywhere
-ENV JAVA_TOOL_OPTIONS="-XX:+IgnoreUnrecognizedVMOptions -XX:+UseContainerSupport"
