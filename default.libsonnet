@@ -33,7 +33,7 @@
     },
 
     env: {
-      JAVA_OPTS: [
+      JENKINS_REMOTING_JAVA_OPTS: [
         "-showversion",
         "-XshowSettings:vm", 
         "-Xmx%s" % thisSpec.maxHeap, 

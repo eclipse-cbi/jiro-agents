@@ -19,6 +19,9 @@ ENTRYPOINT [ "uid_entrypoint", "%(startupScript)s" ]
 ADD "%(remotingJarUrl)s" "%(remotingJar)s" 
 ADD "%(startupScriptUrl)s" "%(startupScript)s"
 
+RUN sed -e 's/JAVA_OPTS/JAVA_OPTS \$JENKINS_REMOTING_JAVA_OPTS/g' %(startupScript)s > %(startupScript)s.sed \
+    && mv %(startupScript)s.sed %(startupScript)s
+
 RUN chmod 755 "$(dirname "%(remotingJar)s")" \
   && chmod 644 "%(remotingJar)s" \
   && chmod ug+rx "%(startupScript)s" \
