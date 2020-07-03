@@ -33,13 +33,10 @@
     },
 
     env: {
-      JAVA_OPTS: [""],
-      JNLP_PROTOCOL_OPTS: [
+      JAVA_OPTS: [
         "-showversion",
         "-XshowSettings:vm", 
         "-Xmx%s" % thisSpec.maxHeap, 
-        # https://github.com/eclipse/openj9/issues/3637
-        #"-Djdk.nativeCrypto=false", 
         # Fixed in JDK9+
         # https://bugs.openjdk.java.net/browse/JDK-8175192
         "-Dsun.zip.disableMemoryMapping=true", 
@@ -48,17 +45,13 @@
         # https://github.com/jenkinsci/git-client-plugin/blob/master/src/main/java/org/jenkinsci/plugins/gitclient/CliGitAPIImpl.java#L100
         "-Dorg.jenkinsci.plugins.gitclient.CliGitAPIImpl.useSETSID=true"
       ],
-      JAVA_TOOL_OPTIONS: [],
       OPENJ9_JAVA_OPTIONS: [
         "-XX:+IgnoreUnrecognizedVMOptions",
         "-XX:+IdleTuningCompactOnIdle",
         "-XX:+IdleTuningGcOnIdle",
       ],
-      IBM_JAVA_OPTIONS: [
-        "-XX:+IgnoreUnrecognizedVMOptions",
-        "-XX:+IdleTuningCompactOnIdle",
-        "-XX:+IdleTuningGcOnIdle",
-      ],
+      # Some parent images (from adoptopenjdk) define such an env. We disable them.
+      JAVA_TOOL_OPTIONS: [],
       _JAVA_OPTIONS: [],
     },
     
