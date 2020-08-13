@@ -30,6 +30,7 @@ RUN yum install -y \
     gtk3 \
     ImageMagick \
     ImageMagick-devel \
+    jq \
     lapack \
     lapack-devel \
     libclang \
