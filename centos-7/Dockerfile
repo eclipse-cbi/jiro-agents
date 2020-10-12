@@ -86,6 +86,7 @@ RUN yum install -y \
     xorg-x11-drv-void.x86_64 \
     xorg-x11-server-Xvfb.x86_64 \
     xterm \
+    xz \
     zip \
     zsh \
   && yum clean all

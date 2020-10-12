@@ -27,6 +27,7 @@ RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.n
     wget \
     xorg-x11-server-Xvfb.x86_64 \
     xterm \
+    xz \
     zsh \
   && dnf clean all
 
