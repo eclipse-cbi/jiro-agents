@@ -17,7 +17,7 @@ RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.n
     coreutils-single \
     cmake \
     gtk3 \
-    java-1.8.0-openjdk-devel \
+    java-11-openjdk-devel \
     jq \
     mutter \
     python3 \

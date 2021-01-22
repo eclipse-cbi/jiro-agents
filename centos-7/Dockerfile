@@ -46,8 +46,7 @@ RUN yum install -y \
     mutter \
     net-snmp-devel.x86_64 \
     okular \
-    java-1.8.0-openjdk-headless-1.8.0.262.b10-1.el7 \
-    java-1.8.0-openjdk-devel-1.8.0.262.b10-1.el7 \
+    java-11-openjdk-devel \
     openssl-devel.x86_64 \
     patch \
     perl \

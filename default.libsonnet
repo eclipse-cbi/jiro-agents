@@ -37,9 +37,6 @@
         "-showversion",
         "-XshowSettings:vm", 
         "-Xmx%s" % thisSpec.maxHeap, 
-        # Fixed in JDK9+
-        # https://bugs.openjdk.java.net/browse/JDK-8175192
-        "-Dsun.zip.disableMemoryMapping=true", 
         "-Dorg.jenkinsci.remoting.engine.JnlpProtocol3.disabled=true", 
         # org.jenkinsci.plugins.gitclient.CliGitAPIImpl.useSETSID=true to allow git client to ssh clone to use passphrase protected keys
         # https://github.com/jenkinsci/git-client-plugin/blob/master/src/main/java/org/jenkinsci/plugins/gitclient/CliGitAPIImpl.java#L100

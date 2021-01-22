@@ -6,4 +6,4 @@
 # or the MIT License which is available at https://opensource.org/licenses/MIT.
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
-FROM eclipsecbi/adoptopenjdk-coreutils:openjdk8-openj9-alpine-slim
+FROM eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim
