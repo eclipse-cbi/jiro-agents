@@ -11,7 +11,7 @@ FROM eclipsecbi/centos:8
 # See https://fedoraproject.org/wiki/EPEL
 RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \ 
   && dnf install -y 'dnf-command(config-manager)' \
-  && dnf config-manager --set-enabled PowerTools \
+  && dnf config-manager --set-enabled powertools \
   && dnf groupinstall -y "Development Tools" \
   && dnf install -y \
     coreutils-single \
