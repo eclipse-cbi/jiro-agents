@@ -17,8 +17,7 @@ local default = import "default.libsonnet";
       // Included since 2.282 (2021-03-02)
       version: "4.7",
       startupScript+: {
-        // TODO: check if 4.7 is out
-        version: "4.6-1",
+        version: "4.7-1",
       },
     },
     default + {
