@@ -1,9 +1,12 @@
-## Basic agent - OS/Tool versions
+## basic agent - OS/Tool versions
 
 | OS / Tool | Version |
 | -----------------|---------|
-| OS release <br> (/etc/issue) |  Welcome to Alpine Linux 3.11 |
-| Java | openjdk version "1.8.0_252" <br> OpenJDK Runtime Environment (build 1.8.0_252-b09) <br> Eclipse OpenJ9 VM (build openj9-0.20.0, JRE 1.8.0 Linux amd64-64-Bit Compressed References 20200416_608 (JIT enabled, AOT enabled) <br> OpenJ9   - 05fa2d361 <br> OMR      - d4365f371 <br> JCL      - cfa47e66cd5 based on jdk8u252-b09) |
-| Git | git version 2.24.3 |        
-| wget | GNU Wget 1.20.3 built on linux-musl. |
-| curl | curl 7.67.0 (x86_64-alpine-linux-musl) libcurl/7.67.0 OpenSSL/1.1.1d zlib/1.2.11 nghttp2/1.40.0 <br> Release-Date: 2019-11-06 <br> Protocols: dict file ftp ftps gopher http https imap imaps pop3 pop3s rtsp smb smbs smtp smtps telnet tftp <br> Features: AsynchDNS HTTP2 HTTPS-proxy IPv6 Largefile libz NTLM NTLM_WB SSL TLS-SRP UnixSockets |
+| OS release <br> (cat /etc/issue) | Debian GNU/Linux 10 \n \l |
+| Java | openjdk version "11.0.10" 2021-01-19<br>OpenJDK Runtime Environment AdoptOpenJDK (build 11.0.10+9)<br>Eclipse OpenJ9 VM AdoptOpenJDK (build openj9-0.24.0, JRE 11 Linux amd64-64-Bit Compressed References 20210120_910 (JIT enabled, AOT enabled)<br>OpenJ9   - 345e1b09e<br>OMR      - 741e94ea8<br>JCL      - 0a86953833 based on jdk-11.0.10+9) |
+| Git | git version 2.20.1 |
+| SSH | OpenSSH_7.9p1 Debian-10+deb10u2, OpenSSL 1.1.1d  10 Sep 2019 |
+| bash | GNU bash, version 5.0.3(1)-release (x86_64-pc-linux-gnu) |
+| Wget | GNU Wget 1.20.1 built on linux-gnu. |
+| cURL | curl 7.64.0 (x86_64-pc-linux-gnu) libcurl/7.64.0 OpenSSL/1.1.1d zlib/1.2.11 libidn2/2.0.5 libpsl/0.20.2 (+libidn2/2.0.5) libssh2/1.8.0 nghttp2/1.36.0 librtmp/2.3 |
+| GPG | gpg (GnuPG) 2.2.12 |
