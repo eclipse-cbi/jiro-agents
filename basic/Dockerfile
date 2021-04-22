@@ -7,3 +7,4 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 FROM eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-debian-slim
+RUN ln -sf /bin/bash /bin/sh
