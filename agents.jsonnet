@@ -12,6 +12,7 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "basic",
+        labels: ["basic"],
         mode: "NORMAL", # utilize agent as much as possible
         docker+: {
           raw_dockerfile:: importstr "basic/Dockerfile",
