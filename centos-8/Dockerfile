@@ -18,6 +18,7 @@ RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.n
     cmake \
     glibc-langpack-en \
     gtk3 \
+    ImageMagick \
     java-11-openjdk-devel \
     jq \
     mutter \
