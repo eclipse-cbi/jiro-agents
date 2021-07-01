@@ -17,7 +17,7 @@ local default = import "default.libsonnet";
       // Included since 2.296 (2021-06-01)
       version: "4.9",
       startupScript+: {
-        version: "4.9-1",
+        version: "4.7-1",
       },
     },
     // This one is commented has it may never appear in any LTS
