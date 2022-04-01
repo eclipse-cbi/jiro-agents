@@ -16,6 +16,7 @@ RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.n
   && dnf install -y \
     coreutils-single \
     cmake \
+    cppcheck \
     glibc-langpack-en \
     gtk3 \
     ImageMagick \
