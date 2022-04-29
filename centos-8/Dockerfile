@@ -28,6 +28,7 @@ RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.n
     jq \
     lsof \
     mutter \
+    pinentry \
     python3 \
     tigervnc \
     tigervnc-server \
