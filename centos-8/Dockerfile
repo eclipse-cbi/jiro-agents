@@ -30,6 +30,7 @@ RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.n
     mutter \
     pinentry \
     python3 \
+    rsync \
     tigervnc \
     tigervnc-server \
     webkitgtk4 \
