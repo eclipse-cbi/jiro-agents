@@ -54,6 +54,7 @@ RUN yum install -y \
     python-gtk-vnc \
     python36u\
     rpm-build \
+    rsync \
     strace \
     subversion \
     sysstat \
