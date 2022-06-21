@@ -26,7 +26,7 @@ RUN yum install -y \
     e2fsprogs-devel \
     gcc \
     gcc-c++ \
-    git224 \
+    git236 \
     gtk3 \
     ImageMagick \
     ImageMagick-devel \
