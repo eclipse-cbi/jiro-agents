@@ -12,7 +12,7 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "basic",
-        labels: ["basic"],
+        labels: ["basic", "linux", "eclipse-hosted"],
         mode: "NORMAL", # utilize agent as much as possible
         docker+: {
           raw_dockerfile:: importstr "basic/Dockerfile",
@@ -27,7 +27,7 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "centos-7",
-        labels: ["migration", "jipp-migration", "centos-7" ],
+        labels: ["migration", "jipp-migration", "centos-7"],
         docker+: {
           raw_dockerfile:: importstr "centos-7/Dockerfile",
         },
@@ -42,7 +42,7 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "centos-8",
-        labels: ["centos-latest", "centos-8" ],
+        labels: ["centos-latest", "centos-8", "linux", "eclipse-hosted" ],
         docker+: {
           raw_dockerfile:: importstr "centos-8/Dockerfile",
         },
