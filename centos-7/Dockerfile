@@ -12,12 +12,13 @@ FROM eclipsecbi/centos:7
 RUN yum install -y \
     https://repo.ius.io/ius-release-el7.rpm \
     https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-  yum install -y \
+  yum install -y --setopt=skip_missing_names_on_install=False \
     autoconf \
     automake \
     boost-test \
     blas \
     blas-devel \
+    clang \
     cmake \
     cppcheck \
     createrepo \
@@ -33,14 +34,11 @@ RUN yum install -y \
     jq \
     lapack \
     lapack-devel \
-    libclang \
-    libgtk-vnc-2.0-0 \
     libtool \
     libXtst \
     lsof \
     mailx \
     make \
-    makeinfo \
     mariadb-libs \
     metacity \
     mutter \
@@ -51,8 +49,7 @@ RUN yum install -y \
     patch \
     perl \
     perl-LDAP \
-    python-gtk-vnc \
-    python36u\
+    python36\
     rpm-build \
     rsync \
     strace \
@@ -68,10 +65,8 @@ RUN yum install -y \
     tigervnc \
     tigervnc-server \
     tk \
-    unrar \
     unzip \
     vino \
-    webkitgtk \
     webkitgtk3 \
     webkitgtk4 \
     wget \
