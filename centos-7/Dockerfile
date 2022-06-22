@@ -85,7 +85,8 @@ RUN yum install -y \
     xz \
     zip \
     zsh \
-  && yum clean all
+  && yum clean all \
+  && rm -rf /var/cache
 
 RUN ln -s /usr/bin/git /usr/local/bin/git \
   && ln -s /bin/bash /usr/local/bin/hipp_shell \
