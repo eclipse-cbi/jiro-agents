@@ -41,7 +41,8 @@ RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.n
     zsh \
   && dnf clean all
 
-RUN alternatives --set java /usr/lib/jvm/java-11-openjdk/bin/java
+RUN alternatives --install /usr/bin/java java /usr/lib/jvm/java-11-openjdk/bin/java 1000 --family java-11-openjdk.x86_64
+  && alternatives --set java /usr/lib/jvm/java-11-openjdk/bin/java
 
 RUN ln -s /usr/bin/git /usr/local/bin/git \
   && ln -s /bin/bash /usr/local/bin/hipp_shell \
