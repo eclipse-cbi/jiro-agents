@@ -3,7 +3,7 @@
 | OS / Tool | Version |
 | -----------------|---------|
 | OS release <br> (cat /etc/redhat-release) | CentOS Linux release 8.3.2011 |
-| Java | openjdk version "1.8.0_302"<br>OpenJDK Runtime Environment (build 1.8.0_302-b08)<br>OpenJDK 64-Bit Server VM (build 25.302-b08, mixed mode) |
+| Java | openjdk version "11.0.13" 2021-10-19 LTS<br>OpenJDK Runtime Environment 18.9 (build 11.0.13+8-LTS)<br>OpenJDK 64-Bit Server VM 18.9 (build 11.0.13+8-LTS, mixed mode, sharing) |
 | Git | git version 2.27.0 |
 | SSH | OpenSSH_8.0p1, OpenSSL 1.1.1g FIPS  21 Apr 2020 |
 | bash | GNU bash, version 4.4.19(1)-release (x86_64-redhat-linux-gnu) |
