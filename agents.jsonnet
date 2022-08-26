@@ -48,14 +48,5 @@ local default = import "default.libsonnet";
         },
       },
     },
-    default + {
-      spec+: {
-        name: "centos-8-jdk11",
-        labels: ["centos-8-jdk11" ],
-        docker+: {
-          raw_dockerfile:: importstr "centos-8-jdk11/Dockerfile",
-        },
-      },
-    },
   ]
 }
