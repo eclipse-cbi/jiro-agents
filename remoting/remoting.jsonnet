@@ -17,7 +17,7 @@ local default = import "default.libsonnet";
       // Included since 2.361.1 (2022-09-07)
       version: "3044.vb_940a_a_e4f72e",
       startupScript+: {
-        version: "3046.v38db_38a_b_7a_86-1 ",
+        version: "3046.v38db_38a_b_7a_86-1",
       },
     },
     default + {
