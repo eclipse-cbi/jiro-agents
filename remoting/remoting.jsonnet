@@ -14,6 +14,13 @@ local default = import "default.libsonnet";
   latest: "4.11.2",
   releases: [
     default + {
+      // Included since ??
+      version: "3077.vd69cf116da_6f",
+      startupScript+: {
+        version: "3077.vd69cf116da_6f-4",
+      },
+    },
+    default + {
       // Included since 2.361.1 (2022-09-07)
       version: "3044.vb_940a_a_e4f72e",
       startupScript+: {
@@ -23,13 +30,6 @@ local default = import "default.libsonnet";
     default + {
       // Included since 2.346.3 (2022-08-10)
       version: "4.13.3",
-      startupScript+: {
-        version: "4.13.2-1",
-      },
-    },
-    default + {
-      // Included since 2.346.1 (2022-06-22)
-      version: "4.13.2",
       startupScript+: {
         version: "4.13.2-1",
       },
