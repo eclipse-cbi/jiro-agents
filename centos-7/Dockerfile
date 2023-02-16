@@ -11,6 +11,7 @@ FROM eclipsecbi/centos:7
 # ius-release required for python36u
 RUN yum install -y \
     https://repo.ius.io/ius-release-el7.rpm \
+    http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-git-release-7-2.noarch.rpm \
     https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
   yum install -y --setopt=skip_missing_names_on_install=False \
     autoconf \
