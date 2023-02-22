@@ -26,6 +26,15 @@ local default = import "default.libsonnet";
     },
     default + {
       spec+: {
+        name: "basic-ubuntu",
+        labels: ["basic-ubuntu"],
+        docker+: {
+          raw_dockerfile:: importstr "basic-ubuntu/Dockerfile",
+        },
+      },
+    },
+    default + {
+      spec+: {
         name: "centos-7",
         labels: ["migration", "jipp-migration", "centos-7" ],
         docker+: {
