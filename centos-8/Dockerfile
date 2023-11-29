@@ -41,6 +41,7 @@ RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.n
     xterm \
     xz \
     zsh \
+    libnsl2 \
   && dnf clean all
 
 RUN alternatives --install /usr/bin/java java /usr/lib/jvm/java-11-openjdk/bin/java 1000 --family java-11-openjdk.x86_64 \
