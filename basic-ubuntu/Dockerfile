@@ -6,5 +6,26 @@
 # or the MIT License which is available at https://opensource.org/licenses/MIT.
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
-FROM eclipsecbi/semeru-ubuntu-coreutils:openjdk11-jammy
+ARG FROM_TAG="open-17-jdk-jammy"
+FROM ibm-semeru-runtimes:${FROM_TAG}
+
+RUN apt-get update && apt-get install -y software-properties-common \
+  && add-apt-repository -y ppa:git-core/ppa
+
+RUN apt-get upgrade -y && apt-get install -y --no-install-recommends \
+  bash \
+  coreutils \
+  curl \
+  dumb-init \
+  git \
+  git-lfs \
+  gnupg \
+  jq \
+  openssh-client \
+  rsync \
+  fonts-dejavu \
+  unzip \
+  wget \
+  zip
+
 RUN ln -sf /bin/bash /bin/sh
