@@ -21,7 +21,7 @@ local default = import "default.libsonnet";
       variants+: default.addAliases(super.variants, [
         "docker.io/eclipsecbijenkins/basic-agent:%s",
         "docker.io/eclipsecbijenkins/jenkins-agent:%s",
-        "docker.io/eclipsecbi/jenkins-jnlp-agent:%s", 
+        "docker.io/eclipsecbi/jenkins-jnlp-agent:%s",
       ]),
     },
     default + {
@@ -31,6 +31,7 @@ local default = import "default.libsonnet";
         docker+: {
           raw_dockerfile:: importstr "basic-ubuntu/Dockerfile",
         },
+        remoting_dockerfile: importstr "remoting-nouidentrypoint/Dockerfile",
       },
     },
     default + {
@@ -41,11 +42,11 @@ local default = import "default.libsonnet";
           raw_dockerfile:: importstr "centos-7/Dockerfile",
         },
       },
-      variants+: default.addAliases(super.variants, [ 
-        "docker.io/eclipsecbijenkins/jipp-migration-agent:%s", 
+      variants+: default.addAliases(super.variants, [
+        "docker.io/eclipsecbijenkins/jipp-migration-agent:%s",
         "docker.io/eclipsecbijenkins/migration-fat-agent:%s",
         "docker.io/eclipsecbijenkins/ui-test-agent:%s",
-        "docker.io/eclipsecbijenkins/ui-tests-agent:%s", 
+        "docker.io/eclipsecbijenkins/ui-tests-agent:%s",
       ]),
     },
     default + {
