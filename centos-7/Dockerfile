@@ -29,6 +29,7 @@ RUN yum install -y \
     gcc \
     gcc-c++ \
     git236 \
+    git-lfs \
     gtk3 \
     ImageMagick \
     ImageMagick-devel \
