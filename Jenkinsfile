@@ -40,9 +40,11 @@ pipeline {
       steps {
         script {
           def agentIds = sh(script: "jq -r '. | keys[]' ${env.BUILD_DIR}/agents.json", returnStdout: true).trim().split('\n')
+          def stages = [:]
           agentIds.each { id ->
-              buildAgent(id)
+              stages.putAll(buildAgent(id))
           }
+          parallel(stages)
         }
       }
     }
@@ -72,6 +74,8 @@ def buildAgent(id) {
     String config = "${configDir}/agent.json"
     String AGENTS_JSON="${env.BUILD_DIR}/agents.json"
 
+    def stages = [:]
+
     println "Building jiro-agent spec '${id}'"
 
     sh "mkdir -p ${configDir}"
@@ -84,16 +88,21 @@ def buildAgent(id) {
     String version = sh(script: "jq -r '.spec.docker.tag' ${config}", returnStdout: true).trim()
     String context = sh(script: "jq -r '.spec.docker.context' ${config}", returnStdout: true).trim()
 
-    buildImage(name, version, "", "${configDir}/Dockerfile", context)
+    stages["${name}:${version}"] = {
+      buildImage(name, version, "", "${configDir}/Dockerfile", context)
+    }
 
     sh(script: "jq -r '.variants | keys[]' ${config}", returnStdout: true).eachLine { variant ->
-        buildAgentVariant(id, variant, config)
+      stages.putAll(buildAgentVariant(id, variant, config))
     }
+    return stages
 }
 
 def buildAgentVariant(id, variant, agentConfig) {
     def configDir = "${env.BUILD_DIR}/${id}/${variant}"
     def config = "${configDir}/variant.json"
+
+    def stages = [:]
 
     println "Building jiro-agent '${id}' - variant ${variant}"
 
@@ -107,7 +116,10 @@ def buildAgentVariant(id, variant, agentConfig) {
     String version = sh(script: "jq -r '.docker.tag' ${config}", returnStdout: true).trim()
 
     String aliases = sh(script: "jq -r '.docker.aliases | join(\",\")' ${config}")
-    buildImage(name, version, aliases, "${configDir}/Dockerfile", "${configDir}")
+    stages["${name}:${version}"] = {
+      buildImage(name, version, aliases, "${configDir}/Dockerfile", "${configDir}")
+    }
+    return stages
 }
 
 def buildImage(String name, String version, String aliases = "", String dockerfile, String context, Map<String, String> buildArgs = [:], boolean latest = false) {
