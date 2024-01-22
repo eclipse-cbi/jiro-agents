@@ -18,7 +18,13 @@ local default = import "default.libsonnet";
       version: "3160.vd76b_9ddd10cc",
       startupScript+: {
         version: "3160.vd76b_9ddd10cc-3",
-        url: "https://raw.githubusercontent.com/jenkinsci/docker-inbound-agent/" + self.version + "/jenkins-agent",
+        url: "https://github.com/jenkinsci/docker-inbound-agent/raw/%s/jenkins-agent" % [ self.version]
+      },
+    },
+    default + {
+      version: "3206.vb_15dcf73f6a_9",
+      startupScript+: {
+        version: "3206.vb_15dcf73f6a_9-3",
       },
     },
   ],
