@@ -21,11 +21,12 @@ local default = import "default.libsonnet";
         url: "https://github.com/jenkinsci/docker-inbound-agent/raw/%s/jenkins-agent" % [ self.version]
       },
     },
-    default + {
-      version: "3206.vb_15dcf73f6a_9",
-      startupScript+: {
-        version: "3206.vb_15dcf73f6a_9-3",
-      },
-    },
+    // re-enable when LTS has been released that depends on it
+    //default + {
+    //  version: "3206.vb_15dcf73f6a_9",
+    //  startupScript+: {
+    //    version: "3206.vb_15dcf73f6a_9-3",
+    //  },
+    //},
   ],
 }
