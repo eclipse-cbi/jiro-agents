@@ -43,15 +43,15 @@ build_agent_variant() {
 
   jq -r '.docker.dockerfile' "${config}" > "${config_dir}/Dockerfile"
 
-  local image tag 
+  local image tag
   image="$(jq -r '.spec.docker.registry' "${agent_config}")/$(jq -r '.spec.docker.repository' "${agent_config}")/$(jq -r '.spec.docker.image' "${agent_config}")"
   tag="$(jq -r '.docker.tag' "${config}")"
 
   local aliases="${image}:${tag}"
-  for alias in $(jq -r '.docker.aliases[]' "${config}"); do 
+  for alias in $(jq -r '.docker.aliases[]' "${config}"); do
     aliases="${aliases},${alias}"
   done
-  
+
   INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
   dockerw build2 "${aliases}" "${config_dir}/Dockerfile" "${config_dir}" "${PUSH_IMAGES}" |& TRACE
 }
@@ -81,8 +81,8 @@ build_agent() {
 }
 
 if [[ -n "${AGENT_ID}" ]]; then
-  build_agent "${AGENT_ID}" 
-else 
+  build_agent "${AGENT_ID}"
+else
   for id in $(jq -r '. | keys[]' "${AGENTS_JSON}"); do
     build_agent "${id}"
   done
