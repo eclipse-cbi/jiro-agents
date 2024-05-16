@@ -44,6 +44,7 @@ pipeline {
           agentIds.each { id ->
               stages.putAll(buildAgent(id))
           }
+          stash(name: 'workspace', includes: '**')
           parallel(stages)
         }
       }
@@ -116,6 +117,7 @@ def buildAgentVariant(id, variant, agentConfig) {
     String version = sh(script: "jq -r '.docker.tag' ${config}", returnStdout: true).trim()
 
     String aliases = sh(script: "jq -r '.docker.aliases | join(\",\")' ${config}")
+    
     stages["${name}:${version}"] = {
       buildImage(name, version, aliases, "${configDir}/Dockerfile", "${configDir}")
     }
@@ -127,17 +129,22 @@ def buildImage(String name, String version, String aliases = "", String dockerfi
   println '############ buildImage ' + distroName + ' ############'
   def containerBuildArgs = buildArgs.collect { k, v -> '--opt build-arg:' + k + '=' + v }.join(' ')
 
-  container('containertools') {
-    containerBuild(
-      credentialsId: env.CREDENTIALS_ID,
-      name: name,
-      version: version,
-      aliases: aliases,
-      dockerfile: dockerfile,
-      context: context,
-      buildArgs: containerBuildArgs,
-      push: env.GIT_BRANCH == 'master',
-      latest: latest
-    )
+  podTemplate(yaml: loadOverridableResource(libraryResource: 'org/eclipsefdn/container/agent.yml')) {
+    node(POD_LABEL) {
+      container('containertools') {
+        unstash('workspace')
+        containerBuild(
+          credentialsId: env.CREDENTIALS_ID,
+          name: name,
+          version: version,
+          aliases: aliases,
+          dockerfile: dockerfile,
+          context: context,
+          buildArgs: containerBuildArgs,
+          push: env.GIT_BRANCH == 'master',
+          latest: latest
+        )
+      }
+    }
   }
 }
