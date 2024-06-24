@@ -117,8 +117,8 @@ def buildAgentVariant(id, variant, agentConfig) {
                 "/" + sh(script: "jq -r '.spec.docker.image' ${agentConfig}", returnStdout: true).trim()
     String version = sh(script: "jq -r '.docker.tag' ${config}", returnStdout: true).trim()
 
-    String aliases = sh(script: "jq -r '.docker.aliases | join(\",\")' ${config}")
-    
+    String aliases = sh(script: "jq -r '.docker.aliases | join(\",\")' ${config}", returnStdout: true).trim()
+
     stages["${name}:${version}"] = {
       buildImage(name, version, aliases, "${configDir}/Dockerfile", "${configDir}")
     }
@@ -126,7 +126,7 @@ def buildAgentVariant(id, variant, agentConfig) {
 }
 
 def buildImage(String name, String version, String aliases = "", String dockerfile, String context, Map<String, String> buildArgs = [:], boolean latest = false) {
-  String distroName = name + ':' + version
+  String distroName = name + ':' + version + ' (' + aliases + ')'
   println '############ buildImage ' + distroName + ' ############'
   def containerBuildArgs = buildArgs.collect { k, v -> '--opt build-arg:' + k + '=' + v }.join(' ')
 
