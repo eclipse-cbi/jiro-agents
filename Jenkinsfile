@@ -93,7 +93,8 @@ def buildAgent(id) {
       buildImage(name, version, "", "${configDir}/Dockerfile", context)
     }
 
-    sh(script: "jq -r '.variants | keys[]' ${config}", returnStdout: true).eachLine { variant ->
+    def result = sh(script: "jq -r '.variants | keys[]' ${config}", returnStdout: true).trim()
+    result.split('\n').each { variant ->
       stages.putAll(buildAgentVariant(id, variant, config))
     }
     return stages
