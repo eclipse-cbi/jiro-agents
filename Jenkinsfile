@@ -90,13 +90,6 @@ def buildAgent(id) {
     String context = sh(script: "jq -r '.spec.docker.context' ${config}", returnStdout: true).trim()
 
     stages["${name}:${version}"] = {
-      agent {
-        kubernetes {
-          yaml loadOverridableResource(
-            libraryResource: 'org/eclipsefdn/container/agent.yml'
-          )
-        }
-      }
       buildImage(name, version, "", "${configDir}/Dockerfile", context)
     }
 
@@ -126,13 +119,6 @@ def buildAgentVariant(id, variant, agentConfig) {
     String aliases = sh(script: "jq -r '.docker.aliases | join(\",\")' ${config}")
     
     stages["${name}:${version}"] = {
-      agent {
-        kubernetes {
-          yaml loadOverridableResource(
-            libraryResource: 'org/eclipsefdn/container/agent.yml'
-          )
-        }
-      }
       buildImage(name, version, aliases, "${configDir}/Dockerfile", "${configDir}")
     }
     return stages
