@@ -8,12 +8,17 @@
 #*******************************************************************************
 FROM eclipsecbi/centos:7
 
+RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo \
+  && sed -i s/^#.*baseurl=http/baseurl=https/g /etc/yum.repos.d/*.repo \
+  && sed -i s/^mirrorlist=http/#mirrorlist=https/g /etc/yum.repos.d/*.repo
+
 # ius-release required for python36u
-RUN yum install -y \
+RUN yum upgrade -y \
+  && yum install -y \
     https://repo.ius.io/ius-release-el7.rpm \
     http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-git-release-7-2.noarch.rpm \
-    https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-  yum install -y --setopt=skip_missing_names_on_install=False \
+    https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+  && yum install -y --setopt=skip_missing_names_on_install=False \
     autoconf \
     automake \
     boost-test \
