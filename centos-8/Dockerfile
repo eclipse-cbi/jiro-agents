@@ -13,7 +13,8 @@ RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* \
   && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 
 # See https://fedoraproject.org/wiki/EPEL
-RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
+RUN dnf upgrade -y \
+  && dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
   && dnf install -y https://opensource.wandisco.com/centos/8/git/x86_64/wandisco-git-release-8-1.noarch.rpm \
   && dnf install -y 'dnf-command(config-manager)' \
   && dnf config-manager --set-enabled powertools \
