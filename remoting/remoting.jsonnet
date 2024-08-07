@@ -11,11 +11,11 @@ local default = import "default.libsonnet";
 {
   # See https://github.com/jenkinsci/remoting/releases for the remoting version
   # See https://github.com/jenkinsci/docker-agent/releases for the startupScript.version
-  latest: "3206.vb_15dcf73f6a_9",
+  latest: "3206.3208.v409508a_675ff",
   releases: [
     default + {
-      // Included since LTS 2.440.1
-      version: "3206.vb_15dcf73f6a_9",
+      // Used for 2.452.4
+      version: "3206.3208.v409508a_675ff",
       startupScript+: {
         version: "3206.vb_15dcf73f6a_9-12",
       },
