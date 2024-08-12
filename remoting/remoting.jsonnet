@@ -14,6 +14,13 @@ local default = import "default.libsonnet";
   latest: "3206.3208.v409508a_675ff",
   releases: [
     default + {
+      // Used for 2.462.1
+      version: "3248.3250.v3277a_8e88c9b_",
+      startupScript+: {
+        version: "3248.3250.v3277a_8e88c9b_-1",
+      },
+    },
+    default + {
       // Used for 2.452.4
       version: "3206.3208.v409508a_675ff",
       startupScript+: {
