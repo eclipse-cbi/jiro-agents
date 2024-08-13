@@ -55,26 +55,41 @@
     remoting_dockerfile:: importstr "remoting/Dockerfile",
   },
 
-  local remotings = import "remoting/remoting.jsonnet",
+  local remotings = import "remoting/remoting.json",
+
   variants: {
     [variant.remoting.version]: variant for variant in [
       {
-        remoting: remoting,
+        remoting: {
+          version: releases.remotingVersion,
+          assert std.length(self.version) != 0: "Must specify remoting version",
+          # <jar> must match the path declared in the startupScript 
+          # Look at the "-cp <jar>" for a given version
+          jar: "/usr/share/jenkins/agent.jar",
+          url: "https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/%s/remoting-%s.jar" % [ self.version, self.version, ],
+          startupScript: {
+            name: "jenkins-agent",
+            version: releases.startupScriptVersion,
+            assert std.length(self.version) != 0: "Must specify startupScript version",
+            url: "https://github.com/jenkinsci/docker-agent/raw/%s/%s" % [ self.version, self.name, ],
+          }
+        },
+        local this = self, # workaround to make objects available in nested objects below
         docker: $.spec.docker + {
-          tag: "remoting-%s" % remoting.version,
-          aliases: if remotings.latest == remoting.version then [
+          tag: "remoting-%s" % releases.remotingVersion,
+          aliases: if remotings.latest == releases.remotingVersion then [
             "%s/%s/%s:%s" % [self.registry, self.repository, self.image, "latest"]
           ] else [],
           dockerfile: $.spec.remoting_dockerfile % (
             $.spec + {
               from: "%s/%s/%s:%s" % [$.spec.docker.registry, $.spec.docker.repository, $.spec.docker.image, $.spec.docker.tag],
-              remotingJar: remoting.jar,
-              remotingJarUrl: remoting.url,
-              startupScriptUrl: remoting.startupScript.url,
+              remotingJar: this.remoting.jar,
+              remotingJarUrl: this.remoting.url,
+              startupScriptUrl: this.remoting.startupScript.url,
             }
           ),
         },
-      } for remoting in remotings.releases
+      } for releases in remotings.releases
     ]
   },
 
