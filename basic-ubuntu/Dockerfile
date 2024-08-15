@@ -6,8 +6,11 @@
 # or the MIT License which is available at https://opensource.org/licenses/MIT.
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
-ARG FROM_TAG="open-17-jdk-jammy"
-FROM ibm-semeru-runtimes:${FROM_TAG}
+FROM ubuntu:24.04
+
+ENV JAVA_HOME=/opt/java/openjdk
+COPY --from=ibm-semeru-runtimes:open-17-jdk $JAVA_HOME $JAVA_HOME
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 RUN apt-get update && apt-get install -y software-properties-common \
   && add-apt-repository -y ppa:git-core/ppa
