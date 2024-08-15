@@ -31,19 +31,21 @@ local default = import "default.libsonnet";
     },
     default + {
       spec+: {
-        name: "centos-7",
-        labels: ["migration", "jipp-migration", "centos-7" ],
+        name: "ubuntu-2204",
+        labels: ["ubuntu-2204"],
         docker+: {
-          raw_dockerfile:: importstr "centos-7/Dockerfile",
+          raw_dockerfile:: importstr "ubuntu/Dockerfile",
+          build_args: "['FROM_TAG': '22.04']",
         },
       },
     },
     default + {
       spec+: {
-        name: "centos-8",
-        labels: ["centos-latest", "centos-8" ],
+        name: "ubuntu-2404",
+        labels: ["ubuntu-latest", "ubuntu-2404"],
         docker+: {
-          raw_dockerfile:: importstr "centos-8/Dockerfile",
+          raw_dockerfile:: importstr "ubuntu/Dockerfile",
+          build_args: "['FROM_TAG': '24.04']",
         },
       },
     },
