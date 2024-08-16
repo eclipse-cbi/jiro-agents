@@ -88,10 +88,19 @@ def buildAgent(id) {
                 "/" + sh(script: "jq -r '.spec.docker.image' ${config}", returnStdout: true).trim()
     String version = sh(script: "jq -r '.spec.docker.tag' ${config}", returnStdout: true).trim()
     String context = sh(script: "jq -r '.spec.docker.context' ${config}", returnStdout: true).trim()
-    String build_args = sh(script: "jq -r '.spec.docker.build_args' ${config}", returnStdout: true).trim()
+    String buildArgsString = sh(script: "jq -r '.spec.docker.build_args' ${config}", returnStdout: true).trim()
+
+    def buildArgsMap = [:]
+    if (buildArgsString != 'null') {
+      buildArgsMap = buildArgsString.replaceAll("[\\[\\]\' ]","").tokenize(",").collectEntries{
+        it.tokenize(":").with{
+          [(it[0]): it[1]] 
+        }
+      }
+    }
 
     stages["${name}:${version}"] = {
-      buildImage(name, version, "", "${configDir}/Dockerfile", context, build_args)
+      buildImage(name, version, "", "${configDir}/Dockerfile", context, buildArgsMap)
     }
 
     def result = sh(script: "jq -r '.variants | keys[]' ${config}", returnStdout: true).trim()
@@ -119,10 +128,19 @@ def buildAgentVariant(id, variant, agentConfig) {
     String version = sh(script: "jq -r '.docker.tag' ${config}", returnStdout: true).trim()
 
     String aliases = sh(script: "jq -r '.docker.aliases | join(\",\")' ${config}", returnStdout: true).trim()
-    String build_args = sh(script: "jq -r '.spec.docker.build_args' ${config}", returnStdout: true).trim()
+    String buildArgsString = sh(script: "jq -r '.spec.docker.build_args' ${config}", returnStdout: true).trim()
+
+    def buildArgsMap = [:]
+    if (buildArgsString != 'null') {
+      buildArgsMap = buildArgsString.replaceAll("[\\[\\]\' ]","").tokenize(",").collectEntries{
+        it.tokenize(":").with{
+          [(it[0]): it[1]] 
+        }
+      }
+    }
 
     stages["${name}:${version}"] = {
-      buildImage(name, version, aliases, "${configDir}/Dockerfile", "${configDir}", build_args)
+      buildImage(name, version, aliases, "${configDir}/Dockerfile", "${configDir}", buildArgsMap)
     }
     return stages
 }
