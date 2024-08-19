@@ -42,7 +42,10 @@ pipeline {
           def agentIds = sh(script: "jq -r '. | keys[]' ${env.BUILD_DIR}/agents.json", returnStdout: true).trim().split('\n')
           def stages = [:]
           agentIds.each { id ->
-              stages.putAll(buildAgent(id))
+              // do not build centos images
+              if (id != "centos-7" && id != "centos-8") {
+                stages.putAll(buildAgent(id))
+              }
           }
           stash(name: 'workspace', includes: '**')
           parallel(stages)

@@ -29,6 +29,26 @@ local default = import "default.libsonnet";
         remoting_dockerfile: importstr "remoting-nouidentrypoint/Dockerfile",
       },
     },
+    //centos-7 docker image will no longer be build
+    default + {
+      spec+: {
+        name: "centos-7",
+        labels: ["migration", "jipp-migration", "centos-7" ],
+        docker+: {
+          raw_dockerfile:: importstr "centos-7/Dockerfile",
+        },
+      },
+    },
+    //centos-8 docker image will no longer be build
+    default + {
+      spec+: {
+        name: "centos-8",
+        labels: ["centos-latest", "centos-8" ],
+        docker+: {
+          raw_dockerfile:: importstr "centos-8/Dockerfile",
+        },
+      },
+    },
     default + {
       spec+: {
         name: "ubuntu-2204",
