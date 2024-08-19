@@ -36,6 +36,7 @@ local default = import "default.libsonnet";
         docker+: {
           raw_dockerfile:: importstr "ubuntu/Dockerfile",
           build_args: "['FROM_TAG': '22.04']",
+          context: "ubuntu",
         },
       },
     },
@@ -46,6 +47,7 @@ local default = import "default.libsonnet";
         docker+: {
           raw_dockerfile:: importstr "ubuntu/Dockerfile",
           build_args: "['FROM_TAG': '24.04']",
+          context: "ubuntu",
         },
       },
     },
