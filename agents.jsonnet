@@ -34,7 +34,7 @@ local default = import "default.libsonnet";
         name: "centos-7",
         labels: ["migration", "jipp-migration", "centos-7" ],
         docker+: {
-          raw_dockerfile:: importstr "centos-7/Dockerfile",
+          raw_dockerfile:: importstr "dummy-dockerfile",
         },
       },
     },
@@ -44,7 +44,7 @@ local default = import "default.libsonnet";
         name: "centos-8",
         labels: ["centos-latest", "centos-8" ],
         docker+: {
-          raw_dockerfile:: importstr "centos-8/Dockerfile",
+          raw_dockerfile:: importstr "dummy-dockerfile",
         },
       },
     },
