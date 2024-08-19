@@ -26,7 +26,6 @@ local default = import "default.libsonnet";
         docker+: {
           raw_dockerfile:: importstr "basic-ubuntu/Dockerfile",
         },
-        remoting_dockerfile: importstr "remoting-nouidentrypoint/Dockerfile",
       },
     },
     //centos-7 docker image will no longer be build
@@ -58,7 +57,6 @@ local default = import "default.libsonnet";
           build_args: "['FROM_TAG': '22.04']",
           context: "ubuntu",
         },
-        remoting_dockerfile: importstr "remoting-nouidentrypoint/Dockerfile",
       },
     },
     default + {
@@ -70,7 +68,6 @@ local default = import "default.libsonnet";
           build_args: "['FROM_TAG': '24.04']",
           context: "ubuntu",
         },
-        remoting_dockerfile: importstr "remoting-nouidentrypoint/Dockerfile",
       },
     },
   ]
