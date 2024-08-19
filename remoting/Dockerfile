@@ -14,9 +14,9 @@ ENV HOME="%(home)s"
 
 VOLUME [ "%(home)s", ]
 WORKDIR "%(home)s"
-ENTRYPOINT [ "uid_entrypoint", "%(startupScript)s" ]
+ENTRYPOINT [ "%(startupScript)s" ]
 
-ADD "%(remotingJarUrl)s" "%(remotingJar)s" 
+ADD "%(remotingJarUrl)s" "%(remotingJar)s"
 ADD "%(startupScriptUrl)s" "%(startupScript)s"
 
 RUN sed -e 's/JAVA_OPTS/JAVA_OPTS \$JENKINS_REMOTING_JAVA_OPTS/g' %(startupScript)s > %(startupScript)s.sed \

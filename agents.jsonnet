@@ -38,6 +38,7 @@ local default = import "default.libsonnet";
           build_args: "['FROM_TAG': '22.04']",
           context: "ubuntu",
         },
+        remoting_dockerfile: importstr "remoting-nouidentrypoint/Dockerfile",
       },
     },
     default + {
@@ -49,6 +50,7 @@ local default = import "default.libsonnet";
           build_args: "['FROM_TAG': '24.04']",
           context: "ubuntu",
         },
+        remoting_dockerfile: importstr "remoting-nouidentrypoint/Dockerfile",
       },
     },
   ]
