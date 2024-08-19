@@ -9,6 +9,8 @@
 ARG FROM_TAG=""
 FROM ubuntu:${FROM_TAG}
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
   autoconf \
   automake \
