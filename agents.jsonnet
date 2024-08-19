@@ -17,6 +17,7 @@ local default = import "default.libsonnet";
         docker+: {
           raw_dockerfile:: importstr "basic/Dockerfile",
         },
+        remoting_dockerfile: importstr "remoting-uidentrypoint/Dockerfile",
       },
     },
     default + {
