@@ -40,6 +40,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
   libgl1-mesa-dri \
   libgtk-3-0 \
   libtool \
+  libxml2-utils \
   lsof \
   make \
   metacity \
