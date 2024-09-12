@@ -10,6 +10,7 @@ ARG FROM_TAG=""
 FROM ubuntu:${FROM_TAG}
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG en_US.UTF-8
 
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
   autoconf \

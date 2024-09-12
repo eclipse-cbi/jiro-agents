@@ -11,6 +11,7 @@ FROM ubuntu:24.04
 ENV JAVA_HOME=/opt/java/openjdk
 COPY --from=ibm-semeru-runtimes:open-17-jdk $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
+ENV LANG en_US.UTF-8
 
 RUN apt-get update && apt-get install -y software-properties-common \
   && add-apt-repository -y ppa:git-core/ppa
