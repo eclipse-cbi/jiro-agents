@@ -17,6 +17,7 @@ RUN apt-get -y update && apt-get install -y locales
 RUN sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
 RUN locale-gen en_US.UTF-8
 ENV LANG=en_US.UTF-8
+RUN update-locale LANG=en_US.UTF-8
 
 RUN apt-get update && apt-get install -y software-properties-common \
   && add-apt-repository -y ppa:git-core/ppa
