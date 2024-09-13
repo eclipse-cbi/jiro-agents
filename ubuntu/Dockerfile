@@ -6,13 +6,16 @@
 # or the MIT License which is available at https://opensource.org/licenses/MIT.
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
-ARG FROM_TAG=""
+ARG FROM_TAG="24.04"
 FROM ubuntu:${FROM_TAG}
 
 ENV DEBIAN_FRONTEND=noninteractive
+
 # Generate and set the locale to UTF-8.
-RUN locale-gen ${LOCALE}
-ENV LANG en_US.UTF-8
+RUN apt-get -y update && apt-get install -y locales
+RUN sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
+RUN locale-gen en_US.UTF-8
+ENV LANG=en_US.UTF-8
 
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
   autoconf \
