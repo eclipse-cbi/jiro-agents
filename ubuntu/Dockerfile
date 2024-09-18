@@ -47,6 +47,8 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
   libgl1-mesa-dri \
   libgtk-3-0 \
   libtool \
+  libwebkit2gtk-4.1 \
+  libwebkitgtk-6.0 \
   libxml2-utils \
   lsof \
   make \
