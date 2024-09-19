@@ -12,7 +12,7 @@ FROM %(from)s
 ENV USER_NAME="%(username)s"
 ENV HOME="%(home)s"
 
-VOLUME [ "%(home)s", ]
+VOLUME [ "%(home)s" ]
 WORKDIR "%(home)s"
 ENTRYPOINT [ "uid_entrypoint", "%(startupScript)s" ]
 
