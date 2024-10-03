@@ -90,3 +90,5 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
 
 ENV HOME=/home/vnc
 ENV DISPLAY=:0
+
+SHELL ["/bin/bash", "-c"]
