@@ -91,4 +91,4 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
 ENV HOME=/home/vnc
 ENV DISPLAY=:0
 
-SHELL ["/bin/bash", "-c"]
+RUN ln -sf /bin/bash /bin/sh
