@@ -27,6 +27,7 @@ RUN chmod 755 "$(dirname "%(remotingJar)s")" \
   && chmod ug+rx "%(startupScript)s" \
   && chgrp 0 "%(startupScript)s"
 
+RUN ln -sf /bin/bash /bin/sh
+
 USER 10001:0
 
-RUN ln -sf /bin/bash /bin/sh
