@@ -12,42 +12,13 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "basic",
-        labels: ["basic"],
+        labels: ["basic", "basic-ubuntu"],
         mode: "NORMAL", # utilize agent as much as possible
         docker+: {
-          raw_dockerfile:: importstr "basic/Dockerfile",
-        },
-        remoting_dockerfile: importstr "remoting-uidentrypoint/Dockerfile",
-      },
-    },
-    default + {
-      spec+: {
-        name: "basic-ubuntu",
-        labels: ["basic-ubuntu"],
-        docker+: {
+          image: "jiro-agent-basic-ubuntu",
           raw_dockerfile:: importstr "basic-ubuntu/Dockerfile",
         },
         remoting_dockerfile: importstr "remoting-ubuntu/Dockerfile",
-      },
-    },
-    //centos-7 docker image will no longer be build
-    default + {
-      spec+: {
-        name: "centos-7",
-        labels: ["migration", "jipp-migration", "centos-7" ],
-        docker+: {
-          raw_dockerfile:: importstr "dummy-dockerfile",
-        },
-      },
-    },
-    //centos-8 docker image will no longer be build
-    default + {
-      spec+: {
-        name: "centos-8",
-        labels: ["centos-latest", "centos-8" ],
-        docker+: {
-          raw_dockerfile:: importstr "dummy-dockerfile",
-        },
       },
     },
     default + {
@@ -65,7 +36,8 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "ubuntu-2404",
-        labels: ["ubuntu-latest", "ubuntu-2404"],
+        //added transitional labels to avoid broken builds
+        labels: ["ubuntu-latest", "ubuntu-2404", "migration", "jipp-migration", "centos-7", "centos-8", "centos-latest"],
         docker+: {
           raw_dockerfile:: importstr "ubuntu/Dockerfile",
           build_args: "['FROM_TAG': '24.04']",
