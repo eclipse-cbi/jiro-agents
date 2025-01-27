@@ -28,6 +28,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
   cppcheck \
   createrepo-c \
   curl \
+  dbus-x11 \
   doxygen \
   dumb-init \
   fonts-liberation \
