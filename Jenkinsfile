@@ -26,7 +26,7 @@ pipeline {
   }
 
   stages {
-    stage('Build Agents') {
+    stage('Compile List of Agents') {
       steps {
         container('containertools') {
           sh '''
@@ -36,7 +36,7 @@ pipeline {
         }
       }
     }
-    stage('Build Images') {
+    stage('Build Spec Images') {
       steps {
         script {
           def agentIds = sh(script: "jq -r '. | keys[]' ${env.BUILD_DIR}/agents.json", returnStdout: true).trim().split('\n')
@@ -52,6 +52,31 @@ pipeline {
         }
       }
     }
+    stage('Build Image Variants') {
+      steps {
+        script {
+          def agentIds = sh(script: "jq -r '. | keys[]' ${env.BUILD_DIR}/agents.json", returnStdout: true).trim().split('\n')
+          def stages = [:]
+          agentIds.each { id ->
+              // do not build centos images
+              if (id != "centos-7" && id != "centos-8") {
+                String configDir = "${env.BUILD_DIR}/${id}"
+                String config = "${configDir}/agent.json"
+                String AGENTS_JSON="${env.BUILD_DIR}/agents.json"
+                sh "mkdir -p ${configDir}"
+                sh "jq -r '.[\"${id}\"]' ${AGENTS_JSON} > ${config}"
+                def result = sh(script: "jq -r '.variants | keys[]' ${config}", returnStdout: true).trim()
+                result.split('\n').each { variant ->
+                    stages.putAll(buildAgentVariant(id, variant, config))
+                }
+              }
+          }
+          stash(name: 'workspace', includes: '**')
+          parallel(stages)
+        }
+      }
+    }
+
   }
 
   post {
@@ -106,10 +131,6 @@ def buildAgent(id) {
       buildImage(name, version, "", "${configDir}/Dockerfile", context, buildArgsMap)
     }
 
-    def result = sh(script: "jq -r '.variants | keys[]' ${config}", returnStdout: true).trim()
-    result.split('\n').each { variant ->
-      stages.putAll(buildAgentVariant(id, variant, config))
-    }
     return stages
 }
 
