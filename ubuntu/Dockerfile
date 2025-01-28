@@ -19,6 +19,7 @@ ENV LANG=en_US.UTF-8
 RUN update-locale LANG=en_US.UTF-8
 
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
+  at-spi2-core \
   autoconf \
   automake \
   bash \
