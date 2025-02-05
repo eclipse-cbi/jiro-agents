@@ -1,13 +1,6 @@
 {
-  "latest": "3248.3250.v3277a_8e88c9b_",
+  "latest": "3261.v9c670a_4748a_9",
   "releases": [
-    {
-      "jenkinsVersion": [
-        "2.452.4"
-      ],
-      "remotingVersion": "3206.3208.v409508a_675ff",
-      "startupScriptVersion": "3206.vb_15dcf73f6a_9-12"
-    },
     {
       "jenkinsVersion": [
         "2.462.1",
@@ -23,6 +16,11 @@
       ],
       "remotingVersion": "3261.v9c670a_4748a_9",
       "startupScriptVersion": "3261.v9c670a_4748a_9-8"
+    },
+    {
+      "jenkinsVersion": "2.492.1",
+      "remotingVersion": "3283.v92c105e0f819",
+      "startupScriptVersion": "3283.v92c105e0f819-8"
     }
   ]
 }
