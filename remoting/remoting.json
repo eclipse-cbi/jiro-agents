@@ -20,7 +20,8 @@
     {
       "jenkinsVersion": [
         "2.492.1",
-        "2.492.2"
+        "2.492.2",
+        "2.492.3"
       ],
       "remotingVersion": "3283.v92c105e0f819",
       "startupScriptVersion": "3283.v92c105e0f819-9"
