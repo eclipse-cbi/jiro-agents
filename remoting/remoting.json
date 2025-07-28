@@ -33,6 +33,13 @@
       ],
       "remotingVersion": "3301.v4363ddcca_4e7",
       "startupScriptVersion": "3301.v4363ddcca_4e7-3"
+    },
+    {
+      "jenkinsVersion": [
+        "2.516.1"
+      ],
+      "remotingVersion": "3309.v27b_9314fd1a_4",
+      "startupScriptVersion": " 3309.v27b_9314fd1a_4-8"
     }
   ]
 }
