@@ -3,21 +3,17 @@
   "releases": [
     {
       "jenkinsVersion": [
-        "2.492.1",
-        "2.492.2",
-        "2.492.3"
-      ],
-      "remotingVersion": "3283.v92c105e0f819",
-      "startupScriptVersion": "3283.v92c105e0f819-9"
-    },
-    {
-      "jenkinsVersion": [
-        "2.516.1",
-        "2.516.2",
         "2.516.3"
       ],
       "remotingVersion": "3309.v27b_9314fd1a_4",
       "startupScriptVersion": "3309.v27b_9314fd1a_4-8"
+    },
+    {
+      "jenkinsVersion": [
+        "2.528.1"
+      ],
+      "remotingVersion": "3327.v868139a_d00e0",
+      "startupScriptVersion": "3327.v868139a_d00e0-8"
     }
   ]
 }
