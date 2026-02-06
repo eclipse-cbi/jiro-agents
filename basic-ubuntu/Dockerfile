@@ -6,11 +6,12 @@
 # or the MIT License which is available at https://opensource.org/licenses/MIT.
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
-FROM ubuntu:24.04
 ARG JDK_VERSION="17"
+FROM ibm-semeru-runtimes:open-${JDK_VERSION}-jdk AS ibm-semeru-openjdk
 
+FROM ubuntu:24.04
 ENV JAVA_HOME=/opt/java/openjdk
-COPY --from=ibm-semeru-runtimes:open-${JDK_VERSION}-jdk $JAVA_HOME $JAVA_HOME
+COPY --from=ibm-semeru-openjdk $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 # Generate and set the locale to UTF-8.
