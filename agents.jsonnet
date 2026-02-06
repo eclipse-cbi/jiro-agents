@@ -23,6 +23,19 @@ local default = import "default.libsonnet";
     },
     default + {
       spec+: {
+        name: "basic-jdk21",
+        labels: ["basic-jdk21", "basic-ubuntu-jdk21"],
+        mode: "NORMAL", # utilize agent as much as possible
+        docker+: {
+          image: "jiro-agent-basic-ubuntu-jdk21",
+          raw_dockerfile:: importstr "basic-ubuntu/Dockerfile",
+          build_args: "['JDK_VERSION': '21']",
+        },
+        remoting_dockerfile: importstr "remoting-ubuntu/Dockerfile",
+      },
+    },
+    default + {
+      spec+: {
         name: "ubuntu-2204",
         labels: ["ubuntu-2204"],
         docker+: {
@@ -41,6 +54,19 @@ local default = import "default.libsonnet";
         docker+: {
           raw_dockerfile:: importstr "ubuntu/Dockerfile",
           build_args: "['FROM_TAG': '24.04']",
+          context: "ubuntu",
+        },
+        remoting_dockerfile: importstr "remoting-ubuntu/Dockerfile",
+      },
+    },
+    default + {
+      spec+: {
+        name: "ubuntu-2404-jdk21",
+        //added transitional labels to avoid broken builds
+        labels: ["ubuntu-latest-jdk21", "ubuntu-2404-jdk21"],
+        docker+: {
+          raw_dockerfile:: importstr "ubuntu/Dockerfile",
+          build_args: "['FROM_TAG': '24.04', 'JDK_VERSION': '21']",
           context: "ubuntu",
         },
         remoting_dockerfile: importstr "remoting-ubuntu/Dockerfile",
