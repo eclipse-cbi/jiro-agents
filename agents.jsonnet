@@ -17,6 +17,7 @@ local default = import "default.libsonnet";
         docker+: {
           image: "jiro-agent-basic-ubuntu",
           raw_dockerfile:: importstr "basic-ubuntu/Dockerfile",
+          context: "basic-ubuntu",
         },
         remoting_dockerfile: importstr "remoting-ubuntu/Dockerfile",
       },
@@ -30,6 +31,7 @@ local default = import "default.libsonnet";
           image: "jiro-agent-basic-ubuntu-jdk21",
           raw_dockerfile:: importstr "basic-ubuntu/Dockerfile",
           build_args: "['JDK_VERSION': '21']",
+          context: "basic-ubuntu",
         },
         remoting_dockerfile: importstr "remoting-ubuntu/Dockerfile",
       },

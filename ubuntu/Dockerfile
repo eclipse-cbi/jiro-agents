@@ -7,8 +7,8 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 ARG FROM_TAG="24.04"
-ARG JDK_VERSION="17"
 FROM ubuntu:${FROM_TAG}
+ARG JDK_VERSION="17"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -44,8 +44,6 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
   git-lfs \
   gnupg \
   imagemagick \
-  openjdk-${JDK_VERSION}-jdk \
-  openjdk-${JDK_VERSION}-dbg \
   jq \
   libgl1-mesa-dri \
   libgtk-3-0 \
@@ -89,7 +87,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
   xterm \
   xz-utils \
   zip \
-  zsh
+  zsh && apt-get clean
 
 ENV HOME=/home/vnc
 ENV DISPLAY=:0
