@@ -44,6 +44,8 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
   git-lfs \
   gnupg \
   imagemagick \
+  openjdk-${JDK_VERSION}-jdk \
+  openjdk-${JDK_VERSION}-dbg \
   jq \
   libgl1-mesa-dri \
   libgtk-3-0 \
