@@ -6,7 +6,7 @@
 # or the MIT License which is available at https://opensource.org/licenses/MIT.
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
-ARG JDK_VERSION="17"
+ARG JDK_VERSION="21"
 FROM ibm-semeru-runtimes:open-${JDK_VERSION}-jdk AS ibm-semeru-openjdk
 
 FROM ubuntu:24.04

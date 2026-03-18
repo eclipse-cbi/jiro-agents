@@ -8,7 +8,7 @@
 #*******************************************************************************
 ARG FROM_TAG="24.04"
 FROM ubuntu:${FROM_TAG}
-ARG JDK_VERSION="17"
+ARG JDK_VERSION="21"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
