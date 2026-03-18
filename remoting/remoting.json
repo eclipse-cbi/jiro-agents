@@ -1,17 +1,10 @@
 {
-  "latest": "3327.v868139a_d00e0",
+  "latest": "3352.v17a_fb_4b_2773f",
   "releases": [
     {
       "jenkinsVersion": [
-        "2.528.3"
-      ],
-      "remotingVersion": "3327.v868139a_d00e0",
-      "startupScriptVersion": "3327.v868139a_d00e0-8"
-    },
-    {
-      "jenkinsVersion": [
-        "2.541.1",
-        "2.541.2"
+        "2.541.2",
+        "2.541.3"
       ],
       "remotingVersion": "3352.v17a_fb_4b_2773f",
       "startupScriptVersion": "3352.v17a_fb_4b_2773f-3"
