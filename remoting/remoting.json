@@ -10,11 +10,11 @@
     },
     {
       "jenkinsVersion": [
-        "2.555.1",
-        "2.555.2"
+        "2.555.2",
+        "2.555.3"
       ],
       "remotingVersion": "3355.v388858a_47b_33",
-      "startupScriptVersion": "3355.v388858a_47b_33-20"
+      "startupScriptVersion": "3355.v388858a_47b_33-22"
     }
   ]
 }
