@@ -42,10 +42,7 @@ pipeline {
           def agentIds = sh(script: "jq -r '. | keys[]' ${env.BUILD_DIR}/agents.json", returnStdout: true).trim().split('\n')
           def stages = [:]
           agentIds.each { id ->
-              // do not build centos images
-              if (id != "centos-7" && id != "centos-8") {
-                stages.putAll(buildAgent(id))
-              }
+             stages.putAll(buildAgent(id))
           }
           stash(name: 'workspace', includes: '**')
           parallel(stages)
@@ -58,17 +55,14 @@ pipeline {
           def agentIds = sh(script: "jq -r '. | keys[]' ${env.BUILD_DIR}/agents.json", returnStdout: true).trim().split('\n')
           def stages = [:]
           agentIds.each { id ->
-              // do not build centos images
-              if (id != "centos-7" && id != "centos-8") {
-                String configDir = "${env.BUILD_DIR}/${id}"
-                String config = "${configDir}/agent.json"
-                String AGENTS_JSON="${env.BUILD_DIR}/agents.json"
-                sh "mkdir -p ${configDir}"
-                sh "jq -r '.[\"${id}\"]' ${AGENTS_JSON} > ${config}"
-                def result = sh(script: "jq -r '.variants | keys[]' ${config}", returnStdout: true).trim()
-                result.split('\n').each { variant ->
-                    stages.putAll(buildAgentVariant(id, variant, config))
-                }
+              String configDir = "${env.BUILD_DIR}/${id}"
+              String config = "${configDir}/agent.json"
+              String AGENTS_JSON="${env.BUILD_DIR}/agents.json"
+              sh "mkdir -p ${configDir}"
+              sh "jq -r '.[\"${id}\"]' ${AGENTS_JSON} > ${config}"
+              def result = sh(script: "jq -r '.variants | keys[]' ${config}", returnStdout: true).trim()
+              result.split('\n').each { variant ->
+                  stages.putAll(buildAgentVariant(id, variant, config))
               }
           }
           stash(name: 'workspace', includes: '**')
@@ -122,7 +116,7 @@ def buildAgent(id) {
     if (buildArgsString != 'null') {
       buildArgsMap = buildArgsString.replaceAll("[\\[\\]\' ]","").tokenize(",").collectEntries{
         it.tokenize(":").with{
-          [(it[0]): it[1]] 
+          [(it[0]): it[1]]
         }
       }
     }
@@ -158,7 +152,7 @@ def buildAgentVariant(id, variant, agentConfig) {
     if (buildArgsString != 'null') {
       buildArgsMap = buildArgsString.replaceAll("[\\[\\]\' ]","").tokenize(",").collectEntries{
         it.tokenize(":").with{
-          [(it[0]): it[1]] 
+          [(it[0]): it[1]]
         }
       }
     }
