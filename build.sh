@@ -8,6 +8,13 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 
+# Bash strict-mode
+set -o errexit
+set -o nounset
+set -o pipefail
+
+IFS=$'\n\t'
+
 export LOG_LEVEL="${LOG_LEVEL:-600}"
 # shellcheck disable=SC1090
 . "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.bashtools/bashtools"
@@ -19,15 +26,8 @@ AGENTS_JSONNET="${1}"
 AGENT_ID="${2:-}"
 PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
-SCRIPT_FOLDER="$(dirname "$(readlink -f "${0}")")"
-PATH="${SCRIPT_FOLDER}/.dockertools:${PATH}"
-
 BUILD_DIR="${SCRIPT_FOLDER}/target/"
 AGENTS_JSON="${BUILD_DIR}/agents.json"
-
-# gen the computed agents.json (mainly for .agents[])
-mkdir -p "${BUILD_DIR}/"
-jsonnet "${AGENTS_JSONNET}" > "${AGENTS_JSON}"
 
 build_agent_variant() {
   local id="${1}"
@@ -79,6 +79,10 @@ build_agent() {
     build_agent_variant "${id}" "${variant}" "${config}"
   done
 }
+
+# gen the computed agents.json (mainly for .agents[])
+mkdir -p "${BUILD_DIR}/"
+jsonnet "${AGENTS_JSONNET}" > "${AGENTS_JSON}"
 
 if [[ -n "${AGENT_ID}" ]]; then
   build_agent "${AGENT_ID}"
