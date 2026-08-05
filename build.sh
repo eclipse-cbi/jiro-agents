@@ -20,11 +20,12 @@ export LOG_LEVEL="${LOG_LEVEL:-600}"
 . "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.bashtools/bashtools"
 
 SCRIPT_FOLDER="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-PATH="${SCRIPT_FOLDER}/.jsonnet:${SCRIPT_FOLDER}/.dockertools:${PATH}"
 
 AGENTS_JSONNET="${1}"
 AGENT_ID="${2:-}"
-PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
+
+BUILDKIT_URL="tcp://buildkitd.foundation-internal-infra-buildkitd:1234"
+BUILDER="remote-okd"
 
 BUILD_DIR="${SCRIPT_FOLDER}/target/"
 AGENTS_JSON="${BUILD_DIR}/agents.json"
@@ -52,8 +53,16 @@ build_agent_variant() {
     aliases="${aliases},${alias}"
   done
 
-  INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
-  dockerw build2 "${aliases}" "${config_dir}/Dockerfile" "${config_dir}" "${PUSH_IMAGES}" |& TRACE
+  INFO "Building docker image ${image}:${tag}"
+  #dockerw build2 "${aliases}" "${config_dir}/Dockerfile" "${config_dir}" "${PUSH_IMAGES}" |& TRACE
+
+  #NOTE: this call always pushes the image
+  DOCKER_BUILDKIT=1 docker buildx build \
+    --builder "${BUILDER}" \
+    -f "${config_dir}/Dockerfile" \
+    --no-cache \
+    -t "${image}:${tag}" \
+    -t "${image}:latest" --push "${config_dir}"
 }
 
 build_agent() {
@@ -72,8 +81,20 @@ build_agent() {
   tag="$(jq -r '.spec.docker.tag' "${config}")"
   context="$(jq -r '.spec.docker.context' "${config}")"
 
-  INFO "Building docker image ${image}:${tag} (push=${PUSH_IMAGES})"
-  dockerw build2 "${image}:${tag}" "${config_dir}/Dockerfile" "${context}" "${PUSH_IMAGES}" |& TRACE
+  INFO "Building docker image ${image}:${tag}"
+  #dockerw build2 "${image}:${tag}" "${config_dir}/Dockerfile" "${context}" "${PUSH_IMAGES}" |& TRACE
+
+  # only create builder if it does not exist yet
+  if ! docker buildx ls | grep "^${BUILDER}" > /dev/null; then
+    docker buildx create --name "${BUILDER}" --driver remote "${BUILDKIT_URL}"
+  fi
+  #NOTE: this call always pushes the image
+  DOCKER_BUILDKIT=1 docker buildx build \
+    --builder "${BUILDER}" \
+    -f "${config_dir}/Dockerfile" \
+    --no-cache \
+    -t "${image}:${tag}" \
+    -t "${image}:latest" --push "${context}"
 
   for variant in $(jq -r '.variants | keys[]' "${config}"); do
     build_agent_variant "${id}" "${variant}" "${config}"
