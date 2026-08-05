@@ -47,18 +47,5 @@ local default = import "default.libsonnet";
         remoting_dockerfile: importstr "remoting-ubuntu/Dockerfile",
       },
     },
-    default + {
-      spec+: {
-        name: "ubuntu-2604",
-        //added transitional labels to avoid broken builds
-        labels: ["ubuntu-2604"],
-        docker+: {
-          raw_dockerfile:: importstr "ubuntu/Dockerfile",
-          build_args: "['FROM_TAG': '26.04']",
-          context: "ubuntu",
-        },
-        remoting_dockerfile: importstr "remoting-ubuntu/Dockerfile",
-      },
-    },
   ]
 }

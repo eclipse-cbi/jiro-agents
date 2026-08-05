@@ -78,6 +78,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
   tigervnc-common \
   tightvncserver \
   unzip \
+  vino \
   wget \
   x11-xserver-utils \
   xfonts-base \
@@ -89,10 +90,6 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
   xz-utils \
   zip \
   zsh && apt-get clean
-
-RUN if [ "${FROM_TAG}" != "26.04" ]; then \
-        apt-get -y update && apt-get install -y --no-install-recommends vino; \
-    fi
 
 ENV HOME=/home/vnc
 ENV DISPLAY=:0
