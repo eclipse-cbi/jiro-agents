@@ -12,7 +12,7 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "basic",
-        labels: ["basic", "basic-ubuntu"],
+        labels: ["basic", "basic-ubuntu", "jdk-provider"],
         mode: "NORMAL", # utilize agent as much as possible
         docker+: {
           image: "jiro-agent-basic-ubuntu",
@@ -25,7 +25,7 @@ local default = import "default.libsonnet";
     default + {
       spec+: {
         name: "ubuntu-2204",
-        labels: ["ubuntu-2204"],
+        labels: ["ubuntu-2204", "jdk-provider"],
         docker+: {
           raw_dockerfile:: importstr "ubuntu/Dockerfile",
           build_args: "['FROM_TAG': '22.04']",
@@ -38,7 +38,7 @@ local default = import "default.libsonnet";
       spec+: {
         name: "ubuntu-2404",
         //added transitional labels to avoid broken builds
-        labels: ["ubuntu-latest", "ubuntu-2404", "migration", "jipp-migration", "centos-7", "centos-8", "centos-latest"],
+        labels: ["ubuntu-latest", "ubuntu-2404", "jdk-provider", "migration", "jipp-migration", "centos-7", "centos-8", "centos-latest"],
         docker+: {
           raw_dockerfile:: importstr "ubuntu/Dockerfile",
           build_args: "['FROM_TAG': '24.04']",
